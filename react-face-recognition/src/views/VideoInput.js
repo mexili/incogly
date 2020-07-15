@@ -10,11 +10,15 @@ const JSON_PROFILE = require('../descriptors/bnk48.json');
 
 
 
-const WIDTH = 420;
-const HEIGHT = 420;
+const WIDTH = 1000;
+const HEIGHT = 1000;
 const inputSize = 160;
 const randomChoice = array => array[Math.floor(Math.random() * array.length)];
 const clothes = randomChoice(['BlazerShirt', 'BlazerSweater', 'CollarSweater', 'Hoodie', 'Overall'])
+const top = randomChoice(['NoHair', 'EyePatch','LongHairMiaWallace', 'Hat', 'Hijab', 'Turban', 'WinterHat1', 'LongHairBigHair', 'ShortHairSides', 'ShortHairFrizzle'])
+const accessories = randomChoice(['Blank', 'Kurt', 'Prescription01', 'Prescription02', 'Round', 'Wayfarers'])
+const skinColor = randomChoice(['Light', 'Pale', 'Brown', 'Yellow', 'Tanned', 'DarkBrown', 'Black'])
+
 class VideoInput extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +30,8 @@ class VideoInput extends Component {
       faceMatcher: null,
       match: null,
       facingMode: null,
-      expression: null
+      expression: null,
+      video: true
     };
   }
 
@@ -141,24 +146,28 @@ class VideoInput extends Component {
         let _X = detection.box._x;
         let _Y = detection.box._y;
         return (
-          <div key={i}>
+          <div key={i} >
               {!!match && !!match[i] ? (
+                      <div style={{width: WIDTH, height: 600, backgroundColor: 'black', position: 'absolute', zIndex: 2}}>
                         <Avatar
-                        style={{width: '400px', height: '400px',transform:  `translateX(${_X}px)`, marginTop: 0,}}
+                        style={{width: 600, height: 600,transform:  `translateX(-${_X}px)`, marginBottom: 0,}}
                         avatarStyle='Square'
-                        topType='LongHairMiaWallace'
-                        accessoriesType='Prescription02'
+                        topType={top}
+                        accessoriesType={accessories}
                         hairColor='BrownDark'
                         facialHairType='Blank'
                         clotheType={clothes}
                         clotheColor='PastelBlue'
                         eyeType='Happy'
                         eyebrowType='Default'
-                        mouthType='Speak'
-                        skinColor='Light'
-                      />                      
-              ) : null}
+                        mouthType='Twinkle'
+                        skinColor={skinColor}
+                      />
+                      </div>
+              ) : null
+              }
           </div>
+              
         );
       });
     }
@@ -180,20 +189,24 @@ class VideoInput extends Component {
           }}
         >
           <div style={{ position: 'relative', width: WIDTH }}>
+            <div style={{width: WIDTH, height: 600, backgroundColor: 'black', position: 'absolute', zIndex: 2}}></div>
             {!!videoConstraints ? (
-              <div style={{ position: 'absolute' }}>
+              <div style={{ position: 'absolute'}}>
                 <Webcam
                   audio={false}
                   width={WIDTH}
-                  height={HEIGHT}
+                  height={600}
                   ref={this.webcam}
+                  mirrored
                   screenshotFormat="image/jpeg"
                   videoConstraints={videoConstraints}
+                  style={{zIndex: -1}}
                 />
               </div>
             ) : null}
             {!!drawBox ? drawBox : null}
           </div>
+          
         </div>
       </div>
     );
