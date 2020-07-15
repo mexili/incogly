@@ -149,8 +149,9 @@ class VideoInput extends Component {
           <div key={i} >
               {!!match && !!match[i] ? (
                       <div style={{width: WIDTH, height: 600, backgroundColor: 'black', position: 'absolute', zIndex: 2}}>
+                        {/*TODO: Replacement for the hardcoded translateX center value */}
                         <Avatar
-                        style={{width: 600, height: 600,transform:  `translateX(-${_X}px)`, marginBottom: 0,}}
+                        style={{width: 300, height: 600, transform:  `translateX(${(350) - _X}px)`, marginBottom: 0,}}
                         avatarStyle='Square'
                         topType={top}
                         accessoriesType={accessories}
