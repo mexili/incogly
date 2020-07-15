@@ -9,14 +9,15 @@ const compression = require('compression');
 
 const app = express(),
   options = { 
-    key: fs.readFileSync(__dirname + '/rtc-video-room-key.pem'),
-    cert: fs.readFileSync(__dirname + '/rtc-video-room-cert.pem')
+    key: fs.readFileSync(__dirname + '/key.pem'),
+    cert: fs.readFileSync(__dirname + '/cert.pem')
   },
   port = process.env.PORT || 3000,
   server = process.env.NODE_ENV === 'production' ?
     http.createServer(app).listen(port) :
-    https.createServer(options, app).listen(port),
+    https.createServer(options, app).listen(port, () => console.log('running')),
   io = sio(server);
+  
 // compress all requests
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'dist')));
