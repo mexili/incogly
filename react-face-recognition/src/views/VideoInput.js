@@ -127,7 +127,7 @@ class VideoInput extends Component {
                         clotheColor='PastelBlue'
                         eyeType='Happy'
                         eyebrowType='Default'
-                        mouthType='Smile'
+                        mouthType='Speak'
                         skinColor='Light'
                       />                      
               ) : null}
