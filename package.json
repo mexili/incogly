@@ -1,7 +1,7 @@
 {
-  "name": "webrtc-video-room",
+  "name": "incogly",
   "version": "1.0.0",
-  "description": "WebRTC with react",
+  "description": "Collaborating tool for developers. Go anonymous",
   "main": "index.js",
   "repository": {
     "type": "git",
