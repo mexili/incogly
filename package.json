@@ -1,0 +1,44 @@
+{
+  "name": "webrtc-video-room",
+  "version": "1.0.0",
+  "description": "WebRTC with react",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stealthanthrax/half-mile-hackathon.git"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --config ./webpack.config.js",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "postinstall": "webpack --mode production"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "file-loader": "^6.0.0",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "compression": "^1.7.2",
+    "express": "^4.16.3",
+    "react": "^16.4.0",
+    "react-dom": ">=16.7.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.0",
+    "serve-favicon": "^2.5.0",
+    "socket.io": "^2.1.1",
+    "bootstrap": "^4.5.0",
+    "node-sass": "^4.14.1",
+    "react-bootstrap": "^1.2.2",
+    "react-feather": "^2.0.8"
+  }
+}

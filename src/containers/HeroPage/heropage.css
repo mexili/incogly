@@ -1,0 +1,92 @@
+.landing-container {
+	background-color: #07011d;
+	padding: 50px 0;
+	display: flex;
+	justify-content: center;
+	line-height: 1.2;
+	overflow-x: hidden;
+}
+
+.hero-h1 {
+	color: #f4f4f4;
+	font-size: 4rem;
+	margin-bottom: 0;
+}
+
+.hero-para {
+	margin-top: 30px;
+	color: lightgray;
+	font-family: "IBM Plex Sans", sans-serif;
+	font-weight: 400;
+}
+
+@media (max-width: 991px) {
+	.hero-h1 {
+		text-align: center;
+	}
+
+	.hero-para {
+		text-align: center;
+	}
+}
+
+.image-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 50px;
+}
+
+.collaborate-row {
+	padding-top: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.collaborate-h1 {
+	color: #f4f4f4;
+	font-weight: 500;
+}
+
+.icon-right {
+	margin-left: 25px;
+}
+
+.on-hover {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.collaborate-h1::after {
+	display: flex;
+	content: "";
+	width: 0;
+	height: 1px;
+	background: rgba(255, 255, 255, 0.5);
+	transition: width 0.3s;
+}
+
+.collaborate-h1:hover::after {
+	width: 100%;
+	transition: width 0.3s;
+}
+
+.on-hover:hover {
+	cursor: pointer;
+}
+
+@media (max-width: 499px) {
+	.collaborate-h1 {
+		font-size: 1.8rem;
+	}
+
+	.landing-container {
+		padding: 0;
+	}
+
+	.on-hover {
+		padding-bottom: 25px;
+	}
+}
