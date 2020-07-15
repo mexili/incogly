@@ -3,13 +3,18 @@ import { withRouter } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import { loadModels, getFullFaceDescription, createMatcher } from '../api/face';
 
+import Avatar,{Piece} from 'avataaars';
 // Import face profile
+
 const JSON_PROFILE = require('../descriptors/bnk48.json');
+
+
 
 const WIDTH = 420;
 const HEIGHT = 420;
 const inputSize = 160;
-
+const randomChoice = array => array[Math.floor(Math.random() * array.length)];
+const clothes = randomChoice(['BlazerShirt', 'BlazerSweater', 'CollarSweater', 'Hoodie', 'Overall'])
 class VideoInput extends Component {
   constructor(props) {
     super(props);
@@ -83,6 +88,9 @@ class VideoInput extends Component {
 
   render() {
     const { detections, match, facingMode } = this.state;
+
+
+
     let videoConstraints = null;
     let camera = '';
     if (!!facingMode) {
@@ -107,32 +115,22 @@ class VideoInput extends Component {
         let _Y = detection.box._y;
         return (
           <div key={i}>
-            {/* <div
-              style={{
-                position: 'absolute',
-                border: 'solid',
-                borderColor: 'blue',
-                height: _H,
-                width: _W,
-                transform: 
-              }}
-            > */}
               {!!match && !!match[i] ? (
-                <img
-                  src="https://avatars1.githubusercontent.com/u/29942790?s=460&u=f6dc49f79d7d53a31cd9b093ef1438d590d1b886&v=4"
-                  style={{
-                    backgroundColor: 'blue',
-                    border: 'solid',
-                    borderColor: 'blue',
-                    width: '100px',
-                    marginTop: 0,
-                    color: '#fff',
-                    transform:  `translateX(${_X}px)`
-                    // `translate(-3px,${_H}px)`
-                  }}
-                />
+                        <Avatar
+                        style={{width: '400px', height: '400px',transform:  `translateX(${_X}px)`, marginTop: 0,}}
+                        avatarStyle='Square'
+                        topType='LongHairMiaWallace'
+                        accessoriesType='Prescription02'
+                        hairColor='BrownDark'
+                        facialHairType='Blank'
+                        clotheType={clothes}
+                        clotheColor='PastelBlue'
+                        eyeType='Happy'
+                        eyebrowType='Default'
+                        mouthType='Smile'
+                        skinColor='Light'
+                      />                      
               ) : null}
-            {/* </div> */}
           </div>
         );
       });
