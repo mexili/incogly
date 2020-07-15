@@ -18,6 +18,7 @@ const clothes = randomChoice(['BlazerShirt', 'BlazerSweater', 'CollarSweater', '
 const top = randomChoice(['NoHair', 'EyePatch','LongHairMiaWallace', 'Hat', 'Hijab', 'Turban', 'WinterHat1', 'LongHairBigHair', 'ShortHairSides', 'ShortHairFrizzle'])
 const accessories = randomChoice(['Blank', 'Kurt', 'Prescription01', 'Prescription02', 'Round', 'Wayfarers'])
 const skinColor = randomChoice(['Light', 'Pale', 'Brown', 'Yellow', 'Tanned', 'DarkBrown', 'Black'])
+const mouth = {'neutral': 'Twinkle', 'happy': 'Smile', 'sad':  'Sad', 'angry': 'Grimace', 'fearful': 'ScreamOpen', 'disgusted': 'Vomit', 'surprised': 'Default'}
 
 class VideoInput extends Component {
   constructor(props) {
@@ -69,16 +70,17 @@ class VideoInput extends Component {
     clearInterval(this.interval);
   }
 
-  //Facial Expressions
+//Track avatar, movements and facial expressions
   capture = async () => {
     if (!!this.webcam.current) {
-      await getFaceExpressions(
+      await getFullFaceDescription(
         this.webcam.current.getScreenshot(),
         inputSize
-      ).then(resizedResults => {
-        if (!!resizedResults) {
+      ).then(fullDesc => {
+        if (!!fullDesc) {
+          const resizedResults = fullDesc[0] && fullDesc[0].expressions;
           const minConfidence = 0.05
-          const exprObj = resizedResults[0] && resizedResults[0].expressions.filter(expr => expr.probability > minConfidence);
+          const exprObj = resizedResults && resizedResults.filter(expr => expr.probability > minConfidence);
           let maxCallback = ( acc, cur ) => {
             acc['expression'] = acc.probability > cur.probability ? acc.expression : cur.expression
             acc['probability'] = Math.max( acc.probability, cur.probability )
@@ -87,41 +89,24 @@ class VideoInput extends Component {
 
           const output = exprObj && exprObj.reduce(maxCallback);
           this.setState({
-            expression: output
-          })
+            detections: fullDesc.map(fd => fd.detection),
+            descriptors: fullDesc.map(fd => fd.descriptor),
+            expression: output ? output.expression : null
+          });
         }
       });
+
+      if (!!this.state.descriptors && !!this.state.faceMatcher) {
+        let match = await this.state.descriptors.map(descriptor =>
+          this.state.faceMatcher.findBestMatch(descriptor)
+        );
+        this.setState({ match });
+      }
     }
   };
 
-//Track avatar and movements
-  // capture = async () => {
-  //   if (!!this.webcam.current) {
-  //     await getFullFaceDescription(
-  //       this.webcam.current.getScreenshot(),
-  //       inputSize
-  //     ).then(fullDesc => {
-  //       if (!!fullDesc) {
-  //         this.setState({
-  //           detections: fullDesc.map(fd => fd.detection),
-  //           descriptors: fullDesc.map(fd => fd.descriptor)
-  //         });
-  //       }
-  //     });
-
-  //     if (!!this.state.descriptors && !!this.state.faceMatcher) {
-  //       let match = await this.state.descriptors.map(descriptor =>
-  //         this.state.faceMatcher.findBestMatch(descriptor)
-  //       );
-  //       this.setState({ match });
-  //     }
-  //   }
-  // };
-
   render() {
-    const { detections, match, facingMode } = this.state;
-
-
+    const { detections, expression, match, facingMode } = this.state;
 
     let videoConstraints = null;
     let camera = '';
@@ -161,7 +146,7 @@ class VideoInput extends Component {
                         clotheColor='PastelBlue'
                         eyeType='Happy'
                         eyebrowType='Default'
-                        mouthType='Twinkle'
+                        mouthType={mouth[expression]}
                         skinColor={skinColor}
                       />
                       </div>
