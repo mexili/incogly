@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Webcam from 'react-webcam';
-import { loadModels, getFullFaceDescription, createMatcher } from '../api/face';
+import { loadModels, getFullFaceDescription, getFaceExpressions, createMatcher } from '../api/face';
 
 import Avatar,{Piece} from 'avataaars';
 // Import face profile
@@ -25,7 +25,8 @@ class VideoInput extends Component {
       descriptors: null,
       faceMatcher: null,
       match: null,
-      facingMode: null
+      facingMode: null,
+      expression: null
     };
   }
 
@@ -63,28 +64,56 @@ class VideoInput extends Component {
     clearInterval(this.interval);
   }
 
+  //Facial Expressions
   capture = async () => {
     if (!!this.webcam.current) {
-      await getFullFaceDescription(
+      await getFaceExpressions(
         this.webcam.current.getScreenshot(),
         inputSize
-      ).then(fullDesc => {
-        if (!!fullDesc) {
+      ).then(resizedResults => {
+        if (!!resizedResults) {
+          const minConfidence = 0.05
+          const exprObj = resizedResults[0].expressions.filter(expr => expr.probability > minConfidence);
+          let maxCallback = ( acc, cur ) => {
+            acc['expression'] = acc.probability > cur.probability ? acc.expression : cur.expression
+            acc['probability'] = Math.max( acc.probability, cur.probability )
+            return acc;
+          };
+
+          const output = exprObj.reduce(maxCallback);
+          console.log("VideoInput -> capture -> output", output)
+
           this.setState({
-            detections: fullDesc.map(fd => fd.detection),
-            descriptors: fullDesc.map(fd => fd.descriptor)
-          });
+            expression: output
+          })
         }
       });
-
-      if (!!this.state.descriptors && !!this.state.faceMatcher) {
-        let match = await this.state.descriptors.map(descriptor =>
-          this.state.faceMatcher.findBestMatch(descriptor)
-        );
-        this.setState({ match });
-      }
     }
   };
+
+//Track avatar and movements
+  // capture = async () => {
+  //   if (!!this.webcam.current) {
+  //     await getFullFaceDescription(
+  //       this.webcam.current.getScreenshot(),
+  //       inputSize
+  //     ).then(fullDesc => {
+  //       if (!!fullDesc) {
+  //         this.setState({
+  //           detections: fullDesc.map(fd => fd.detection),
+  //           descriptors: fullDesc.map(fd => fd.descriptor)
+  //         });
+  //       }
+  //     });
+
+  //     if (!!this.state.descriptors && !!this.state.faceMatcher) {
+  //       let match = await this.state.descriptors.map(descriptor =>
+  //         this.state.faceMatcher.findBestMatch(descriptor)
+  //       );
+  //       this.setState({ match });
+  //     }
+  //   }
+  // };
 
   render() {
     const { detections, match, facingMode } = this.state;
