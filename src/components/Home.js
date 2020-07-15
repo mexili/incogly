@@ -28,8 +28,8 @@ const Home = (props) => {
             <img src={imgs} className="illustration"/>
             <img src={imag} className="illustration"/>
           </div>
-          <h3>Try incog.ly</h3>
-          <h4 className="recent-text">Connect & Collaborate! Go anonymous</h4>
+          <h3>Try Incog.ly</h3>
+          <h4 className="recent-text">Connect & Collaborate anonymously!</h4>
         </Row>
         <Row className="card-row">
           <Card>
@@ -60,7 +60,7 @@ const Home = (props) => {
               )}
               <Row className="card-content">
                 {props.rooms.map((room) => (
-                  <Col lg={2} className="recent-input"> 
+                  <Col lg={2} className="recent-input" key={room + Math.floor(Math.random() * 10)}> 
                   <Link
                     key={room}
                     className="recent-room"

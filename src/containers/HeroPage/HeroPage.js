@@ -17,6 +17,7 @@ const HeroPage = () => {
             <img
               src={gif}
               alt="landing-hero"
+              className="landing-hero"
             />
           </Col>
           <Col lg={6}>

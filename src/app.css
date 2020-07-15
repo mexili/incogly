@@ -267,7 +267,8 @@ button:focus {
   align-items: center;
   justify-content: center;
   font-family: "IBM Plex Sans", sans-serif;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
+  margin-top: -5%;
 }
 
 .icon-right {
@@ -369,5 +370,13 @@ input[type="text"] {
 @media (max-width: 768px) {
   .card {
     width: 70vw;
+  }
+  .landing-hero{
+    width: 80%;
+    margin-top: 10%;
+  }
+  .user-input {
+    margin-bottom: 20%;
+    margin-top: 10%;
   }
 }
