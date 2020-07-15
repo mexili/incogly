@@ -14,41 +14,41 @@ h6 {
   box-sizing: border-box;
 }
 
-html{
+html {
   background-color: #07011d;
 }
 
-body{
+body {
   background-color: #07011d;
 }
 
 body,
 input,
 button {
-    margin: 0;
+  margin: 0;
 }
 
 input:focus,
 button:focus {
-    outline:0;
+  outline: 0;
 }
 
-input[type=text] {
-    border: none;
-    border-bottom: solid 2px #4c4c4f;
-    font-size: 1em;
-    background-color: transparent;
-    color: #fff;
-    padding: .4em 0;
-    margin: 2ex 0;
-    width: 100%;
-    max-width: 18em;
-    display: block;
-}
+/* input[type="text"] {
+  border: none;
+  border-bottom: solid 2px #4c4c4f;
+  font-size: 1em;
+  background-color: transparent;
+  color: #fff;
+  padding: 0.4em 0;
+  margin: 2ex 0;
+  width: 100%;
+  max-width: 18em;
+  display: block;
+} */
 .home {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .call-exit-button,
 .hangup-button,
@@ -57,18 +57,18 @@ input[type=text] {
 .video-button-true,
 .video-button-false,
 .fullscreen-button {
-    width: 3em;
-    height: 3em;
-    border-radius: 50%;
-    background: rgba(44, 44, 44, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 0;
-    box-shadow: .2ex .2ex 1.5em #444;
-    transition: all .2s ease-out;
-    margin: 0 .4em;
-    cursor: pointer;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  background: rgba(44, 44, 44, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  box-shadow: 0.2ex 0.2ex 1.5em #444;
+  transition: all 0.2s ease-out;
+  margin: 0 0.4em;
+  cursor: pointer;
 }
 .call-exit-button:hover,
 .hangup-button:hover,
@@ -77,8 +77,8 @@ input[type=text] {
 .video-button-true:hover,
 .video-button-false:hover,
 .fullscreen-button:hover {
-    box-shadow: .4ex .4ex 3em #666;
-    background: rgba(64, 124, 247, 1)
+  box-shadow: 0.4ex 0.4ex 3em #666;
+  background: rgba(64, 124, 247, 1);
 }
 .you-left,
 .remote-left,
@@ -88,31 +88,33 @@ input[type=text] {
 .video-button-false .off,
 .fullscreen-button .on,
 .room-occupied {
-	display: none;
+  display: none;
 }
 :-webkit-full-screen .fullscreen-button .on {
-    display: block;
+  display: block;
 }
 :-moz-full-screen .fullscreen-button .on {
-    display: block;
+  display: block;
 }
 :-ms-fullscreen .fullscreen-button .on {
-    display: block;
+  display: block;
 }
-:fullscreen .fullscreen-button .on { /* spec */
-    display: block;
+:fullscreen .fullscreen-button .on {
+  /* spec */
+  display: block;
 }
 :-webkit-full-screen .fullscreen-button .off {
-    display: none;
+  display: none;
 }
 :-moz-full-screen .fullscreen-button .off {
-    display: none;
+  display: none;
 }
 :-ms-fullscreen .fullscreen-button .off {
-    display: none;
+  display: none;
 }
-:fullscreen .fullscreen-button .off { /* spec */
-    display: none;
+:fullscreen .fullscreen-button .off {
+  /* spec */
+  display: none;
 }
 /* deeper elements */
 :-webkit-full-screen video {
@@ -120,79 +122,79 @@ input[type=text] {
   height: 100%;
 }
 .guest-hangup + .auth .you-left {
-    display: inline;
+  display: inline;
 }
 .full .room-occupied,
 .host-hangup + .auth .remote-left,
 .recent-room {
-	display: block;
+  display: block;
 }
 .recent-room {
-    color: #4285F4;
-    margin: 1ex 1em;
+  color: #f4f4f4;
+  text-decoration: none !important;
 }
 .remote-video {
-    display: block;
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: cover;
+  display: block;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
 }
 .local-video {
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: cover;
-    transition: all .3s;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  transition: all 0.3s;
 }
 .established .local-video {
-	margin: 10px;
-    max-height: 17%;
-    max-width: 17%;
-    height: auto;
-    width: auto;
+  margin: 10px;
+  max-height: 17%;
+  max-width: 17%;
+  height: auto;
+  width: auto;
 }
 .media-bridge,
 .local-video,
 .remote-video {
-    position: absolute;
-    height: 100%;
-    width: 100%;
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 .auth {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .primary-button {
-    text-decoration: none;
-    display: inline-block;
-    cursor: pointer;
-    background-color: #4285F4;
-    border: none;
-    color: white;
-    font-size: 0.8em;
-    margin: 0 5px 20px 5px;
-    width: 8em;
-    line-height: 3ex;
-    padding: 1ex 0.7em;
-    text-align: center;
-    -webkit-box-shadow: 1px 1px 5px 0 rgba(0,0,0,.5);
-    -moz-box-shadow: 1px 1px 5px 0 rgba(0,0,0,.5);
-    box-shadow: 1px 1px 5px 0 rgba(0,0,0,.5);
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  background-color: #4285f4;
+  border: none;
+  color: white;
+  font-size: 0.8em;
+  margin: 0 5px 20px 5px;
+  width: 8em;
+  line-height: 3ex;
+  padding: 1ex 0.7em;
+  text-align: center;
+  -webkit-box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
 }
 .media-controls {
-    display: flex;
-    margin: 2ex 0;
-    justify-content: center;
-    left: 0;
-    right: 0;
+  display: flex;
+  margin: 2ex 0;
+  justify-content: center;
+  left: 0;
+  right: 0;
 }
 .svg {
-    width: 1.4em;
+  width: 1.4em;
 }
 .room-occupied,
 .request-access,
@@ -200,28 +202,172 @@ input[type=text] {
 .request-access,
 .grant-access,
 .waiting {
-    overflow: hidden;
-    padding: 0 1em;
-    box-sizing: border-box;
-    width: 100%;
-    background: rgba(0, 0, 0, .8);
-    /* Initially we don't want any height, and we want the contents to be hidden */
-    max-height: 0;
-    transition: max-height .3s ease;
+  overflow: hidden;
+  padding: 0 1em;
+  box-sizing: border-box;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  /* Initially we don't want any height, and we want the contents to be hidden */
+  max-height: 0;
+  transition: max-height 0.3s ease;
 }
 .full + .auth .room-occupied,
 .guest-hangup + .auth .request-access,
 .join + .auth .request-access,
 .approve + .auth .grant-access {
-    transition-delay: .3s;
-    /* Set the max-height to something large. In this case there's an obvious limit. */
-    max-height: 20ex;
+  transition-delay: 0.3s;
+  /* Set the max-height to something large. In this case there's an obvious limit. */
+  max-height: 20ex;
 }
 .host-hangup + .auth .waiting,
 .create + .auth .waiting {
-    /* Set the max-height to something large. In this case there's an obvious limit. */
-    max-height: 20ex;
+  /* Set the max-height to something large. In this case there's an obvious limit. */
+  max-height: 20ex;
 }
 .established + .auth .hangup-button {
-    display: flex;
+  display: flex;
+}
+
+.users-container {
+  background-color: #07011d;
+  padding: 50px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+  overflow-x: hidden;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.card {
+  min-width: 55vw;
+  background-color: #07011d;
+  /* border: 1px solid rgba(255, 255, 255, 0.25); */
+  color: #f4f4f4;
+  text-align: center;
+  padding: 25px;
+  align-items: center;
+  border-radius: 4px;
+  /* background: #07011d;
+  box-shadow: 10px 10px 20px #03000c, -10px -10px 20px #0b022e; */
+}
+
+.card-body {
+  min-width: 50vw;
+}
+
+.user-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "IBM Plex Sans", sans-serif;
+  margin-bottom: 10%;
+}
+
+.icon-right {
+  margin-left: 10px;
+  color: white;
+}
+
+.text-input {
+  background-color: #d67474;
+}
+
+.next-btn {
+  background-color: rgb(231, 0, 0);
+}
+
+input[type="text"] {
+  border: 1px solid white;
+  border-radius: 75px;
+  padding: 15px;
+  padding-left: 20px;
+  width: 30%;
+  text-align:center;
+}
+
+.recent-text {
+  text-align: center;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 500;
+  margin-bottom: 5%;
+  font-size: 18px;
+  color: #f4f4f4;
+  font-weight: 300;
+}
+
+.brand {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  padding-top: 35px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-input {
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 25px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.recent-input:hover {
+  background-color: white;
+  color: transparent;
+  text-decoration: none;
+}
+
+.hr-line {
+  width: 150px;
+  height: 2px;
+  background-color: white;
+}
+
+.brand > h2 {
+  font-weight: 300;
+  margin-top: 15px;
+  font-size: 20px;
+}
+
+.illustration{
+  width: 30%
+}
+
+.container-images{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+@media (max-width: 441px) {
+  .card-body {
+    padding: 0;
+  }
+  input[type="text"] {
+    width: 40vw;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 991px) {
+  .card {
+    width: 65vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 70vw;
+  }
 }

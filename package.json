@@ -12,7 +12,7 @@
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
     "postinstall": "webpack --mode production",
-    "serve": "http-server ./dist --ssl -c-1 -p 8080 -a 127.0.0.1"
+    "serve": "http-server ./dist --ssl -c-1 -p 8080"
   },
   "license": "MIT",
   "devDependencies": {
