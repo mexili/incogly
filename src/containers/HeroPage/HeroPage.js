@@ -37,7 +37,7 @@ const HeroPage = () => {
           </Col>
         </Row>
         <Row className="collaborate-row">
-          <Link to="/collaborate"  style={{ textDecoration: 'none' }}>
+          <Link to="/colab"  style={{ textDecoration: 'none' }}>
             <div className="on-hover">
               <h1 className="collaborate-h1">Start Collaborating</h1>
               <Icon.ArrowRight color="white" className="icon-right" />

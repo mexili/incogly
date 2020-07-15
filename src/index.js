@@ -15,9 +15,9 @@ render(
 	<Provider store={store}>
 		<BrowserRouter>
 			<Switch>
-        <Route path="/test" component={HeroPage} />
-				<Route exact path="/" component={Home} />
-				<Route path="/r/:room" component={Room} />
+        <Route exact path="/" component={HeroPage} />
+				<Route exact path="/colab" component={Home} />
+				<Route path="/colab/r/:room" component={Room} />
 				<Route path="*" component={NotFound} />
 			</Switch>
 		</BrowserRouter>

@@ -1,20 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const Home = props =>
-  <div className="home">
-    <div>
-      <p>Please enter a room name.</p>
-      <input type="text" name="room" value={ props.roomId } onChange={props.handleChange} pattern="^\w+$" maxLength="10" required autoFocus title="Room name should only contain letters or numbers."/>
-      <Link className="primary-button" to={ '/r/' + props.roomId }>Join</Link>
-      <Link className="primary-button" to={ '/r/' + props.defaultRoomId }>Random</Link>
-      <Link className="primary-button" to='/test'>UI</Link>
-      { props.rooms.length !== 0 && <div>Recently used rooms:</div> }
-      { props.rooms.map(room => <Link key={room} className="recent-room" to={ '/r/' + room }>{ room }</Link>) }
+const Home = props => {
+  return (
+    <div className="home">
+      <div>
+        <p>Please enter a room name.</p>
+        <input type="text" name="room" value={ props.roomId } onChange={props.handleChange} pattern="^\w+$" maxLength="10" required autoFocus title="Room name should only contain letters or numbers."/>
+        <Link className="primary-button" to={ '/colab/r/' + props.roomId }>Join</Link>
+        <Link className="primary-button" to={ '/colab/r/' + props.defaultRoomId }>Random</Link>
+        { props.rooms.length !== 0 && <div>Recently used rooms:</div> }
+        { props.rooms.map(room => <Link key={room} className="recent-room" to={ '/colab/r/' + room }>{ room }</Link>) }
+      </div>
     </div>
-  </div>;
+  )
+}
 
 Home.propTypes = {
   handleChange: PropTypes.func.isRequired,

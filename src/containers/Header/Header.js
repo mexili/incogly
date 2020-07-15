@@ -18,7 +18,7 @@ const Header = () => {
           <Nav className="ml-auto">
             <Nav.Link href="#login">Login</Nav.Link>
             <Nav.Link href="#signup">Signup</Nav.Link>
-            <Link to="/collaborate" style={{ textDecoration: "none" }}>
+            <Link to="/colab" style={{ textDecoration: "none" }}>
               <Nav.Link href="#collaborate">Collaborate</Nav.Link>
             </Link>
           </Nav>
