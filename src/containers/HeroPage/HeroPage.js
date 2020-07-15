@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
 import Header from '../Header/Header';
-
+import gif from '../../assets/images/landing-hero.gif'
 import "./heropage.css";
 
 const HeroPage = () => {
@@ -14,16 +14,19 @@ const HeroPage = () => {
       <Container>
         <Row>
           <Col lg={6} className="image-wrapper">
-            {/* <img
-              src={require("../../assets/images/landing-hero.gif")}
+            <img
+              src={gif}
               alt="landing-hero"
-            /> */}
+            />
           </Col>
           <Col lg={6}>
             <div className="hero-text">
               <h1 className="hero-h1">
                 Code and collaborate, without friction.
               </h1>
+              {/* <h3 className="hero-para">
+                Go anonymous...
+              </h3> */}
               <p className="hero-para">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
                 incidunt ipsum blanditiis quisquam hic quia, at nisi, possimus

@@ -5,7 +5,7 @@ h4,
 h5,
 h6 {
   font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 * {
@@ -25,21 +25,14 @@ body{
 body,
 input,
 button {
-    font-size: 1.6vw;
     margin: 0;
-    font-family: Sans-Serif;
 }
-@media(max-width: 1024px) {
-    body,
-    input,
-    button {
-        font-size: 1em;
-    }
-}
+
 input:focus,
 button:focus {
     outline:0;
 }
+
 input[type=text] {
     border: none;
     border-bottom: solid 2px #4c4c4f;

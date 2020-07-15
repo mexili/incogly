@@ -1,12 +1,13 @@
 import React from "react";
-import "./header.css";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
+import "./header.css";
 
 const Header = () => {
   return (
     <div className="header-container">
-      <Navbar bg="dark" expand="lg" variant="dark">
+      <Navbar expand="lg" variant="dark">
         <Link to="/" style={{ textDecoration: "none" }}>
           <Navbar.Brand href="#home" classname="navbar-brand">
             Incog.ly

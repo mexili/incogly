@@ -3,7 +3,9 @@ const path = require("path");
 module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    compress: true
+    compress: true,
+    historyApiFallback: true,
+    hot: true
   },
   module: {
     rules: [
@@ -17,9 +19,15 @@ module.exports = {
         use: ["style-loader", "css-loader"]
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|jpe?g|gif)$/i,
         use: [
-          'file-loader',
+          {
+            loader: 'file-loader',
+            options: {
+              regExp: /\/([a-z0-9]+)\/[a-z0-9]+\.png$/i,
+              name: '[1]-[name].[ext]',
+            },
+          },
         ],
       },
     ]
