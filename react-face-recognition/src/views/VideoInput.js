@@ -73,14 +73,14 @@ class VideoInput extends Component {
       ).then(resizedResults => {
         if (!!resizedResults) {
           const minConfidence = 0.05
-          const exprObj = resizedResults[0].expressions.filter(expr => expr.probability > minConfidence);
+          const exprObj = resizedResults[0] && resizedResults[0].expressions.filter(expr => expr.probability > minConfidence);
           let maxCallback = ( acc, cur ) => {
             acc['expression'] = acc.probability > cur.probability ? acc.expression : cur.expression
             acc['probability'] = Math.max( acc.probability, cur.probability )
             return acc;
           };
 
-          const output = exprObj.reduce(maxCallback);
+          const output = exprObj && exprObj.reduce(maxCallback);
           console.log("VideoInput -> capture -> output", output)
 
           this.setState({
