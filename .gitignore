@@ -2,3 +2,4 @@
 /node_modules
 cert.pem
 key.pem
+.DS_Store
