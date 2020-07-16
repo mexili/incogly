@@ -65,6 +65,13 @@ class VideoInput extends Component {
       this.capture();
     }, 1500);
   };
+  
+  lerp = (value1, value2, amount)=> {
+    amount = amount < 0 ? 0 : amount;
+    amount = amount > 1 ? 1 : amount;
+    return value1 + (value2 - value1) * amount;
+  }
+
 
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -104,7 +111,7 @@ class VideoInput extends Component {
       }
     }
   };
-
+  prevX = 0;
   render() {
     const { detections, expression, match, facingMode } = this.state;
 
@@ -129,6 +136,7 @@ class VideoInput extends Component {
         let _H = detection.box.height;
         let _W = detection.box.width;
         let _X = detection.box._x;
+        this.prevX = _X;
         let _Y = detection.box._y;
         return (
           <div key={i} >
@@ -136,7 +144,8 @@ class VideoInput extends Component {
                       <div style={{width: WIDTH, height: 600, backgroundColor: 'black', position: 'absolute', zIndex: 2}}>
                         {/*TODO: Replacement for the hardcoded translateX center value */}
                         <Avatar
-                        style={{width: 300, height: 600, transform:  `translateX(${(350) - _X}px)`, marginBottom: 0,}}
+                        style={{width: 300, height: 600, transform:  `translateX(
+                          ${-this.lerp( -_X-650 , _X+650 , 0.01)}px)`, marginBottom: 0,}}
                         avatarStyle='Square'
                         topType={top}
                         accessoriesType={accessories}
