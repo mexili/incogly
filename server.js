@@ -13,9 +13,10 @@ const app = express(),
     cert: fs.readFileSync(__dirname + '/cert.pem')
   },
   port = process.env.PORT || 3000,
-  server = process.env.NODE_ENV === 'production' ?
-    http.createServer(app).listen(port) :
-    https.createServer(options, app).listen(port, () => console.log('running')),
+  // server = process.env.NODE_ENV === 'production' ?
+  //   http.createServer(app).listen(port) :
+  //   https.createServer(options, app).listen(port, () => console.log('running')),
+  server = http.createServer(app).listen(port, () => console.log(`Server is running on port ${port}`)),
   io = sio(server);
   
 // compress all requests
