@@ -1,22 +1,30 @@
 import * as faceapi from 'face-api.js';
+import { tinyFaceDetector } from 'face-api.js';
 
 // Load models and weights
 export async function loadModels() {
-  const MODEL_URL = process.env.PUBLIC_URL + '/models';
-  await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
-  await faceapi.loadFaceLandmarkTinyModel(MODEL_URL);
-  await faceapi.loadFaceRecognitionModel(MODEL_URL);
-  await faceapi.loadFaceExpressionModel(MODEL_URL);
-  await faceapi.loadFaceLandmarkModel(MODEL_URL);
+  const MODEL_URL = '../../../models';
+  // await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
+  try{
+    await faceapi.loadSsdMobilenetv1Model(MODEL_URL);
+    await faceapi.loadFaceLandmarkModel(MODEL_URL);
+    await faceapi.loadFaceExpressionModel(MODEL_URL);
+    // await faceapi.loadFaceLandmarkTinyModel(MODEL_URL);
+    await faceapi.loadFaceRecognitionModel(MODEL_URL);
+
+  }
+  catch(e) {
+    console.log(e)
+  }
 }
 
 export async function getFullFaceDescription(blob, inputSize = 512) {
   // tiny_face_detector options
   let scoreThreshold = 0.5;
-  const OPTION = new faceapi.TinyFaceDetectorOptions({
-    inputSize,
-    scoreThreshold
-  });
+  // const OPTION = new faceapi.TinyFaceDetectorOptions({
+  //   inputSize,
+  //   scoreThreshold
+  // });
   const useTinyModel = true;
 
   // fetch image to api
@@ -25,10 +33,10 @@ export async function getFullFaceDescription(blob, inputSize = 512) {
   // detect all faces and generate full description from image
   // including landmark and descriptor of each face
   let fullDesc = await faceapi
-    .detectAllFaces(img, OPTION)
-    .withFaceExpressions()
-    .withFaceLandmarks(useTinyModel)
-    .withFaceDescriptors();
+    .detectAllFaces(img)
+    .withFaceLandmarks()
+    // .withFaceExpressions()
+    // .withFaceDescriptors();
 
   const resizedResults = faceapi.resizeResults(fullDesc, img)
   return resizedResults;
