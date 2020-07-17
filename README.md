@@ -5,7 +5,6 @@ Have you ever been in a situation where you nailed every aspect of the conversat
 
 We created Incog.ly to help everyone remove that component of uncertainity in our new routines.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### Features
 
