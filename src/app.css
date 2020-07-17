@@ -133,17 +133,23 @@ button:focus {
   color: #f4f4f4;
   text-decoration: none !important;
 }
+
+/* Video call  */
+
 .remote-video {
   display: block;
   max-height: 100%;
   max-width: 100%;
   object-fit: cover;
+  transform: rotateY(180deg);
 }
 .local-video {
   max-height: 100%;
   max-width: 100%;
   object-fit: cover;
   transition: all 0.3s;
+  transform: rotateY(180deg);
+  filter: blur(50px);
 }
 .established .local-video {
   margin: 10px;
@@ -192,6 +198,7 @@ button:focus {
   justify-content: center;
   left: 0;
   right: 0;
+  z-index: 3;
 }
 .svg {
   width: 1.4em;

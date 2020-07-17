@@ -8,10 +8,10 @@ const favicon = require('serve-favicon');
 const compression = require('compression');
 
 const app = express(),
-  options = { 
-    key: fs.readFileSync(__dirname + '/key.pem'),
-    cert: fs.readFileSync(__dirname + '/cert.pem')
-  },
+  // options = { 
+  //   key: fs.readFileSync(__dirname + '/key.pem'),
+  //   cert: fs.readFileSync(__dirname + '/cert.pem')
+  // },
   port = process.env.PORT || 3000,
   // server = process.env.NODE_ENV === 'production' ?
   //   http.createServer(app).listen(port) :
