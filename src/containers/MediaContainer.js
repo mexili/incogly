@@ -155,12 +155,11 @@ class MediaBridge extends Component {
         inputSize
       )
         .then((fullDesc) => {
+          // console.log("HEER")
+
           if (!!fullDesc) {
-            console.log(
-              "MediaBridge -> capture -> fullDesc",
-              fullDesc[0].box._x
-            );
-            this.setState({ _X: fullDesc[0].box._x });
+            console.log("MediaBridge -> capture -> fullDesc", fullDesc);
+            this.setState({ _X: fullDesc[0].detection.box._x });
             const resizedResults = fullDesc[0] && fullDesc[0].expressions;
             const minConfidence = 0.05;
             const exprObj =
@@ -355,7 +354,7 @@ class MediaBridge extends Component {
         >
           {
             /*TODO: Replacement for the hardcoded translateX center value */
-            console.log(this.state._X)
+            console.log("STATE X", this.state._X)
           }
           <Avatar
             style={{
@@ -370,9 +369,9 @@ class MediaBridge extends Component {
             facialHairType="Blank"
             clotheType={clothes}
             clotheColor="PastelBlue"
-            eyeType="Happy"
-            eyebrowType="Default"
-            mouthType="Twinkle"
+            eyeType={eyeType[expression]}
+            eyebrowType={eyebrowType[expression]}
+            mouthType={mouth[expression]}
             skinColor={skinColor}
           />
         </div>

@@ -3,16 +3,16 @@ import { tinyFaceDetector } from 'face-api.js';
 
 // Load models and weights
 export async function loadModels() {
-  // const MODEL_URL = 'models';
+  const MODEL_URL = '../../../models';
   // await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
   // await faceapi.loadFaceLandmarkTinyModel(MODEL_URL);
   // await faceapi.loadFaceRecognitionModel(MODEL_URL);
   // await faceapi.loadFaceExpressionModel(MODEL_URL);
   // await faceapi.loadFaceLandmarkModel(MODEL_URL);
-  await faceapi.nets.tinyFaceDetector.loadFromUri('./models'),
-  await faceapi.nets.faceLandmark68Net.loadFromUri('./models'),
-  await faceapi.nets.faceRecognitionNet.loadFromUri('./models'),
-  await faceapi.nets.faceExpressionNet.loadFromUri('./models')
+  await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+  await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+  await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+  await faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL)
 }
 
 export async function getFullFaceDescription(blob, inputSize = 512) {
@@ -32,7 +32,7 @@ export async function getFullFaceDescription(blob, inputSize = 512) {
   let fullDesc = await faceapi
   .detectAllFaces(img, OPTION)
   .withFaceExpressions()
-  .withFaceLandmarks(useTinyModel)
+  .withFaceLandmarks()
   .withFaceDescriptors();
 
   const resizedResults = faceapi.resizeResults(fullDesc, img)

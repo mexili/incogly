@@ -26,12 +26,14 @@
     "css-loader": "^3.2.0",
     "file-loader": "^6.0.0",
     "http-server": "^0.12.3",
+    "raw-loader": "^4.0.1",
     "style-loader": "^0.21.0",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@tensorflow/tfjs": "^2.0.1",
     "avataaars": "^1.2.1",
     "bootstrap": "^4.5.0",
     "compression": "^1.7.2",
