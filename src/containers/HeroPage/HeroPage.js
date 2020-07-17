@@ -21,7 +21,7 @@ const HeroPage = () => {
                 <h1 className="hero-h1">
                   Connect & collaborate, without friction.
                 </h1>
-                <h3 className="hero-para">Go anonymous, Go incognito !</h3>
+                <h3 className="hero-para">Go anonymous, Go incog.ly !</h3>
                 <p className="hero-para">
                 Incog.ly is a peer to peer video conferencing app which keeps your identity anonymous. With the feel by avatarifying the remote side into a character with the power of emotions and expressions.
                 </p>
