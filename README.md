@@ -1,10 +1,15 @@
-# Incog.ly  
-[![dq2APV.th.png](https://iili.io/dq2APV.th.png)](https://freeimage.host/i/dq2APV)
+
+<p align="center">
+    <img src="https://iili.io/dq2APV.th.png" />
+</p>
+<h1 align="center">Incog.ly</h1>
+
 
 Have you ever been in a situation where you nailed every aspect of the conversation but still couldn't crack the deal. Maybe because the other person had a bias against you :eyes:
-Have you ever wanted an app where you could practice for mock interviews with your peers but without revealing them your identity or knowing theirs?
 
-Say Hi:wave: to Incog.ly, the first ever truly anonymous video calling platform.
+We created Incog.ly to help everyone remove that component of uncertainity in our new routines.
+
+Incog.ly is a peer to peer video conferencing app which keeps your identity anonymous. With the feel by avatarifying the remote side into a character with the power of emotions and expressions.
 
 ### Features
 
@@ -25,6 +30,7 @@ Have an eye for the best project :eyes:
 
 
 ## Demo Video & DevPost
+[Devpost](https://devpost.com/software/half-mile-hackathon)
 
 
 ## Installation
@@ -44,4 +50,4 @@ Please make sure to update tests as appropriate.
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
 
-### Made with :heart: by `js-do-it`
+#### Made with :heart: by `js-do-it`
