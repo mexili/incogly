@@ -1,10 +1,10 @@
-# Incog.ly
-
+# Incog.ly  
+[![dq2APV.th.png](https://iili.io/dq2APV.th.png)](https://freeimage.host/i/dq2APV)
 
 Have you ever been in a situation where you nailed every aspect of the conversation but still couldn't crack the deal. Maybe because the other person had a bias against you :eyes:
+Have you ever wanted an app where you could practice for mock interviews with your peers but without revealing them your identity or knowing theirs?
 
-We created Incog.ly to help everyone remove that component of uncertainity in our new routines.
-
+Say Hi:wave: to Incog.ly, the first ever truly anonymous video calling platform.
 
 ### Features
 
@@ -28,11 +28,14 @@ Have an eye for the best project :eyes:
 
 
 ## Installation
-
+### `git clone` 
+### `cd half-mile-hackathon/`
+### `npm install`
+### `node server.js`
+### `Visit localhost:3000/`
 
 
 ## Usage
-
 
 
 ## Contributing
@@ -42,3 +45,5 @@ Please make sure to update tests as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+
+### Made with :heart: by `js-do-it`
