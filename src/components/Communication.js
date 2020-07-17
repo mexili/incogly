@@ -44,16 +44,16 @@ const Communication = props =>
     </div>
     <div className="grant-access">
       <p style={{color: '#f4f4f4'}}>A peer has sent you a message to join the room:</p>
-      <div>{props.message}</div>
-      <button onClick={props.handleInvitation} data-ref="reject" className="primary-button">Reject</button>
-      <button onClick={props.handleInvitation} data-ref="accept" className="primary-button">Accept</button>
+      <div><p style={{color: '#f4f4f4'}}>{props.message}</p></div>
+      <button onClick={props.handleInvitation} data-ref="reject" className="primary-button" style={{borderRadius: 50, backgroundColor: '#dc3545'}} >Reject</button>
+      <button onClick={props.handleInvitation} data-ref="accept" className="primary-button" style={{borderRadius: 50, backgroundColor: '#28a745'}}>Accept</button>
     </div>
     <div className="room-occupied">
-      <p>Please, try another room!</p>
+      <p style={{color: '#f4f4f4'}}>Please, try another room!</p>
       <Link  className="primary-button" to="/">OK</Link>
     </div>
     <div className="waiting">
-      <p><span>Waiting for someone to join this room:&nbsp;</span><a href={window.location.href}>{window.location.href}</a><br/>
+      <p style={{color: '#f4f4f4'}}><span>Waiting for someone to join this room:&nbsp;</span><a href={window.location.href}>{window.location.href}</a><br/>
       <span className="remote-left">The remote side hung up.</span></p>
     </div>
   </div>
