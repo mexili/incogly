@@ -16,51 +16,14 @@ const WIDTH = 500;
 const HEIGHT = 500;
 const inputSize = 160;
 const randomChoice = (array) => array[Math.floor(Math.random() * array.length)];
-const clothes = randomChoice([
-  "BlazerShirt",
-  "BlazerSweater",
-  "CollarSweater",
-  "Hoodie",
-  "Overall",
-]);
-const top = randomChoice([
-  "NoHair",
-  "EyePatch",
-  "LongHairMiaWallace",
-  "Hat",
-  "Hijab",
-  "Turban",
-  "WinterHat1",
-  "LongHairBigHair",
-  "ShortHairSides",
-  "ShortHairFrizzle",
-]);
-const accessories = randomChoice([
-  "Blank",
-  "Kurt",
-  "Prescription01",
-  "Prescription02",
-  "Round",
-  "Wayfarers",
-]);
-const skinColor = randomChoice([
-  "Light",
-  "Pale",
-  "Brown",
-  "Yellow",
-  "Tanned",
-  "DarkBrown",
-  "Black",
-]);
-const mouth = {
-  neutral: "Twinkle",
-  happy: "Smile",
-  sad: "Sad",
-  angry: "Grimace",
-  fearful: "ScreamOpen",
-  disgusted: "Vomit",
-  surprised: "Default",
-};
+const clothes = randomChoice(['BlazerShirt', 'BlazerSweater', 'CollarSweater', 'Hoodie', 'Overall'])
+const top = randomChoice(['NoHair', 'EyePatch','LongHairMiaWallace', 'Hat', 'Hijab', 'Turban', 'WinterHat1', 'LongHairBigHair', 'ShortHairSides', 'ShortHairFrizzle'])
+const accessories = randomChoice(['Blank', 'Prescription01', 'Prescription02', 'Round', 'Wayfarers'])
+const skinColor = randomChoice(['Light', 'Pale', 'Brown', 'Yellow', 'Tanned', 'DarkBrown', 'Black'])
+const mouth = {'neutral': 'Twinkle', 'happy': 'Smile', 'sad':  'Sad', 'angry': 'Grimace', 'fearful': 'ScreamOpen', 'disgusted': 'Vomit', 'surprised': 'Disbelief'}
+const eyes = {'neutral': 'Default', 'happy': 'Happy', 'sad':  'Cry', 'angry': 'Squint', 'fearful': 'Dizzy', 'disgusted': 'Squint', 'surprised': 'Surprised'}
+const eyeBrows = {'neutral': 'DefaultNatural', 'happy': 'Default', 'sad':  'SadConcernedNatural', 'angry': 'AngryNatural', 'fearful': 'SadConcernedNatural', 'disgusted': 'SadConcernedNatural', 'surprised': 'RaisedExcitedNatural'}
+
 
 class MediaBridge extends Component {
   constructor(props) {
@@ -151,7 +114,7 @@ class MediaBridge extends Component {
 
     if (!!this.localVideo) {
       await getFullFaceDescription(
-        this.extractScreenshot(this.localVideo),
+        this.extractScreenshot(this.remoteVideo),
         inputSize
       )
         .then((fullDesc) => {
@@ -346,7 +309,7 @@ class MediaBridge extends Component {
             width: "100%",
             height: "100%",
             position: "absolute",
-            zIndex: 2,
+            zIndex: 8,
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "center",
@@ -369,8 +332,8 @@ class MediaBridge extends Component {
             facialHairType="Blank"
             clotheType={clothes}
             clotheColor="PastelBlue"
-            eyeType={eyeType[expression]}
-            eyebrowType={eyebrowType[expression]}
+            eyeType={eyes[expression]}
+            eyebrowType={eyeBrows[expression]}
             mouthType={mouth[expression]}
             skinColor={skinColor}
           />

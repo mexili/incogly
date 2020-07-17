@@ -142,6 +142,7 @@ button:focus {
   max-width: 100%;
   object-fit: cover;
   transform: rotateY(180deg);
+  filter: blur(50px);
 }
 .local-video {
   max-height: 100%;
@@ -149,7 +150,8 @@ button:focus {
   object-fit: cover;
   transition: all 0.3s;
   transform: rotateY(180deg);
-  filter: blur(50px);
+  z-index: 2;
+  /* filter: blur(50px); */
 }
 .established .local-video {
   margin: 10px;
@@ -174,6 +176,7 @@ button:focus {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 9
 }
 .primary-button {
   text-decoration: none;
@@ -198,7 +201,6 @@ button:focus {
   justify-content: center;
   left: 0;
   right: 0;
-  z-index: 3;
 }
 .svg {
   width: 1.4em;
