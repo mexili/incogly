@@ -70,8 +70,7 @@ button:focus {
   margin: 0 0.4em;
   cursor: pointer;
 }
-.call-exit-button:hover,
-.hangup-button:hover,
+
 .audio-button-true:hover,
 .audio-button-false:hover,
 .video-button-true:hover,
@@ -80,6 +79,13 @@ button:focus {
   box-shadow: 0.4ex 0.4ex 3em #666;
   background: rgba(64, 124, 247, 1);
 }
+
+.call-exit-button:hover,
+.hangup-button:hover{
+  box-shadow: 0.4ex 0.4ex 3em #666;
+  background: rgba(255, 0, 0, 0.6)
+}
+
 .you-left,
 .remote-left,
 .hangup-button,
