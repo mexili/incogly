@@ -50,4 +50,4 @@ Please make sure to update tests as appropriate.
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
 
-#### Made with :heart: by `js-do-it`
+**Made with :heart: by** `js-do-it`
