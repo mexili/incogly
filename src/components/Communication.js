@@ -36,14 +36,14 @@ const Communication = props =>
       </button>
     </div>
     <div className="request-access">
-      <p><span className="you-left">You hung up.&nbsp;</span>Send an invitation to join the room.</p>
+      <p style={{color: '#f4f4f4'}}><span className="you-left">You hung up.&nbsp;</span>Send an invitation to join the room.</p>
       <form onSubmit={props.send}>
         <input type="text" autoFocus onChange={props.handleInput} data-ref="message"  maxLength="30" required placeholder="Hi, I'm John Doe." />
-        <button className="primary-button">Send</button>
+        <button className="primary-button" style={{borderRadius: 50}}>Send</button>
       </form>
     </div>
     <div className="grant-access">
-      <p>A peer has sent you a message to join the room:</p>
+      <p style={{color: '#f4f4f4'}}>A peer has sent you a message to join the room:</p>
       <div>{props.message}</div>
       <button onClick={props.handleInvitation} data-ref="reject" className="primary-button">Reject</button>
       <button onClick={props.handleInvitation} data-ref="accept" className="primary-button">Accept</button>

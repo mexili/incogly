@@ -38,3 +38,8 @@
 	width: 100%;
 	transition: width 0.3s;
 }
+
+.colab-button{
+  border-radius: 50px; 
+  border: 1px solid #f4f4f4;
+}

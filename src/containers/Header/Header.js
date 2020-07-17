@@ -14,9 +14,11 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link href="#login">Login</Nav.Link>
-            <Nav.Link href="#signup">Signup</Nav.Link>
-            <Nav.Link href="/colab">Collaborate</Nav.Link>
+            <Nav.Link href="https://devpost.com/software/half-mile-hackathon">Blog</Nav.Link>
+            <Nav.Link href="https://github.com/stealthanthrax/half-mile-hackathon">Github</Nav.Link>
+            <div className="colab-button">
+              <Nav.Link href="/colab">Create room</Nav.Link>
+            </div>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
