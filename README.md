@@ -28,11 +28,9 @@ Have an eye for the best project :eyes:
 
 
 ## Installation
-### `git clone` 
-### `cd half-mile-hackathon/`
-### `npm install`
-### `node server.js`
-### `Visit localhost:3000/`
+* `git clone https://github.com/stealthanthrax/half-mile-hackathon.git`
+* `cd half-mile-hackathon`
+* `npm install && node server.js`
 
 
 ## Usage
