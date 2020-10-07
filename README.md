@@ -34,8 +34,8 @@ Have an eye for the best project :eyes:
 
 
 ## Installation
-* `git clone https://github.com/stealthanthrax/half-mile-hackathon.git`
-* `cd half-mile-hackathon`
+* `git clone https://github.com/incog-ly/incog-ly`
+* `cd incog-ly`
 * `npm install && node server.js`
 
 
