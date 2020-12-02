@@ -5,9 +5,9 @@
 <h1 align="center">Incog.ly</h1>
 
 
-Have you ever been in a situation where you nailed every aspect of the conversation but still couldn't crack the deal. Maybe because the other person had a bias against you :eyes:
+Have you ever been in a situation where you nailed every aspect of the conversation but still couldn't crack the deal? Maybe because the other person had a bias against you :eyes:
 
-We created Incog.ly to help everyone remove that component of uncertainity in our new routines.
+We created Incog.ly to help everyone remove that component of uncertainty in our new routines.
 
 Incog.ly is a peer to peer video conferencing app which keeps your identity anonymous. With the feel by avatarifying the remote side into a character with the power of emotions and expressions.
 
@@ -21,7 +21,7 @@ Incog.ly is a peer to peer video conferencing app which keeps your identity anon
 
 ### Why Incog.ly?
 
-Incog.ly is a video platform where candidate's and interviewee's face and voice are masked during the interview. This allows the interviewers to understand the candidate's experience and abilities while eliminating their identity from the evaluation process.
+Incog.ly is a video platform where the candidate's and interviewee's face and voice are masked during the interview. This allows the interviewers to understand the candidate's experience and abilities while eliminating their identity from the evaluation process.
 
 ## Requirements
 
