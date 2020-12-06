@@ -40,7 +40,7 @@
     "express": "^4.16.3",
     "face-api.js": "^0.17.0",
     "node-sass": "^4.14.1",
-    "react": "^17.0.1",
+    "react": "^16.4.0",
     "react-bootstrap": "^1.2.2",
     "react-dom": ">=16.7.0",
     "react-feather": "^2.0.8",
