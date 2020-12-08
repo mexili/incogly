@@ -34,9 +34,9 @@ Have an eye for the best project :eyes:
 
 
 ## Installation
-* `git clone https://github.com/incog-ly/incog-ly`
-* `cd incog-ly`
-* `npm install && node server.js`
+* `git clone https://github.com/mexili/incog-ly`
+* `cd incogly`
+* `yarn && node server.js`
 
 
 ## Usage
@@ -48,6 +48,6 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[GPL3](https://choosealicense.com/licenses/gpl-3.0/)
 
-**Made with :heart: &nbsp;by** `js-do-it`
+**Made with :heart: &nbsp;by** `The Mexili Community`
