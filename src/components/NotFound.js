@@ -4,8 +4,7 @@ import imgs from '../assets/images/not-found.svg';
 
 
 const NotFound =()=>{
-    
-   
+     
         return(
             <div>
                 <center><img 
