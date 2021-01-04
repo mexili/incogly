@@ -11,6 +11,7 @@ el.requestFullscreen = el.requestFullscreen ||
 el.webkitRequestFullscreen ||
 el.mozRequestFullScreen ||
 el.msRequestFullScreen;
+
 const ToggleFullScreen = () => {
   // full-screen available?
   if (document.fullscreenEnabled) {
