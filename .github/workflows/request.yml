@@ -3,7 +3,6 @@ name: HTTP Request Action
 on:
   push:
     branches: [ develop ]
-    types: [ closed ]
   
 jobs:
   deployment:
