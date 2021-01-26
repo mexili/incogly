@@ -1,0 +1,18 @@
+name: HTTP Request Action
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy Stage
+      uses: fjogeleit/http-request-action@master
+      with:
+        url: 'https://wocleaderboard-backend.herokuapp.com/updateLeaderBoard' # use the server url here
+        method: 'POST'
+        username: ${{ github.event.pull_request.user.login }}
+        score: ${{ github.event.label.name }}
+
+on:
+  push:
+    branches:
+      - master
+      - development

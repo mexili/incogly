@@ -1,10 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import imgs from '../assets/images/not-found.svg';
 
 
-class NotFound extends React.Component{
-    
-    render(){
+const NotFound =()=>{
+     
         return(
             <div>
                 <center><img 
@@ -13,10 +13,11 @@ class NotFound extends React.Component{
                 />
                 <h1 style={{color: "white", paddingTop: "2%"}}>Page Not Found!</h1>
                 <p style={{color: "white"}}>The page you are looking for was moved, removed, renamed, or might never existed.</p>
-                <button className="buttn">GO TO HOME</button></center>
+              
+                <Link to="/" className="buttn"> GO TO HOME </Link></center>
             </div>
         )
     }
-}
+
 
 export default NotFound;
