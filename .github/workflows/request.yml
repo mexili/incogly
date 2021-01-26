@@ -6,7 +6,7 @@ jobs:
     - name: Deploy Stage
       uses: fjogeleit/http-request-action@master
       with:
-        url: 'https://ansible.io/api/v2/job_templates/84/launch/' # use the server url here
+        url: 'https://wocleaderboard-backend.herokuapp.com/updateLeaderBoard' # use the server url here
         method: 'POST'
         username: ${{ github.event.pull_request.user.login }}
         score: ${{ github.event.label.name }}
