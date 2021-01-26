@@ -13,5 +13,5 @@ jobs:
       with:
         url: 'https://wocleaderboard-backend.herokuapp.com/updateLeaderBoard' # use the server url here
         method: 'POST'
-        data: '{ "user":  "${{ github.event.pull_request.user.login }}" , "score": "${{ github.event.label.name }}" '
+        data: '{ "user":  "${{ github.event.pull_request.user.login }}" , "score": "${{ github.event.label.name }}" }'
 
