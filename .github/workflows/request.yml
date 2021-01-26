@@ -9,8 +9,10 @@ jobs:
         url: 'https://ansible.io/api/v2/job_templates/84/launch/' # use the server url here
         method: 'POST'
         username: ${{ github.event.pull_request.user.login }}
+        score: ${{ github.event.label.name }}
 
 on:
   push:
     branches:
       - master
+      - development
