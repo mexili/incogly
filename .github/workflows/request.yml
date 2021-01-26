@@ -3,6 +3,7 @@ name: HTTP Request Action
 on:
   push:
     branches: [ develop ]
+    types: [ closed ]
   
 jobs:
   deployment:
@@ -11,7 +12,7 @@ jobs:
     - name: Deploy Stage
       uses: fjogeleit/http-request-action@master
       with:
-        url: 'https://wocleaderboard-backend.herokuapp.com/updateLeaderBoard' # use the server url here
+        url: 'https://wocleaderboard-backend.herokuapp.com/updateLeaderBoard/' # use the server url here
         method: 'POST'
         data: '{ "user":  "${{ github.event.pull_request.user.login }}" , "score": "${{ github.event.label.name }}" }'
 
