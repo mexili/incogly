@@ -15,4 +15,4 @@ on:
   push:
     branches:
       - master
-      - development
+      - develop
