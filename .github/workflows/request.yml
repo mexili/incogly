@@ -11,7 +11,7 @@ jobs:
       GITHUB_CONTEXT: ${{ toJson(github) }}
     steps:
       - run: |
-          SCORE=$(echo ${{ github.event.head_commit.author.message }} | cut -d '|' -f 2) || 0
+          SCORE=$(echo ${{ github.event.head_commit.author.message }} | cut -d '|' -f 2)
           USER=${{ github.event.head_commit.author.username }}
           echo $SCORE,$USER
 
