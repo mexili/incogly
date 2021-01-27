@@ -8,17 +8,17 @@ jobs:
   deployment:
     runs-on: ubuntu-latest
     env:
-      user: ${{ github.event.head_commit.author.username }}
-      message: ${{ github.event.head_commit }}
+      USER: ${{ github.event.head_commit.author.username }}
+      MESSAGE: ${{ github.event.head_commit }}
       GITHUB_CONTEXT: ${{ toJson(github) }}
+
     steps:
       - run: |
-          
           echo " hello worakdfsj asdklj ${{ github.event.pull_request.user.login }}"
           echo `env`
-          SCORE=$(echo $message | cut -d '|' -f 2)
+          SCORE=$(echo $MESSAGE | cut -d '|' -f 2)
           echo $score
-          curl --data '{"user": $user, "score": $SCORE}'
+          curl --data '{"user": $USER, "score": $SCORE}'
           
 #     - name: Deploy Stage
 #       uses: fjogeleit/http-request-action@master
