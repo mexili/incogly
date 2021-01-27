@@ -10,11 +10,13 @@ jobs:
     env:
       user: ${{ github.event.pull_request.user.login }}
       score: ${{ github.event.label.name }}
+      GITHUB_CONTEXT: ${{ toJson(github) }}
     steps:
       - run: |
           echo "Hello World"
           echo " hello worakdfsj asdklj ${{ github.event.pull_request.user.login }}"
           echo `env`
+          echo "$GITHUB_CONTEXT"
           
 #     - name: Deploy Stage
 #       uses: fjogeleit/http-request-action@master
