@@ -10,6 +10,7 @@ jobs:
     steps:
       - run: |
           echo "Hello World"
+          echo ${{ github.event.pull_request.user.login }}
 #     - name: Deploy Stage
 #       uses: fjogeleit/http-request-action@master
 #       with:
