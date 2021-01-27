@@ -7,10 +7,15 @@ on:
 jobs:
   deployment:
     runs-on: ubuntu-latest
+    env:
+      user: ${{ github.event.pull_request.user.login }}
+      score: ${{ github.event.label.name }}
     steps:
       - run: |
           echo "Hello World"
           echo ${{ github.event.pull_request.user.login }}
+          echo `env`
+          
 #     - name: Deploy Stage
 #       uses: fjogeleit/http-request-action@master
 #       with:
