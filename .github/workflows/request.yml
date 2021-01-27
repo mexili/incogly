@@ -15,7 +15,7 @@ jobs:
           USER=${{ github.event.head_commit.author.username }}
           echo $SCORE,$USER
 
-          curl --data '{"user": $USER, "score": 100}' --request POST https://wocleaderboard-backend.herokuapp.com/updateLeaderBoard/
+          curl --data '{"user": ${{USER}}, "score": 100}' --request POST https://wocleaderboard-backend.herokuapp.com/updateLeaderBoard/
 
 #     - name: Deploy Stage
 #       uses: fjogeleit/http-request-action@master
