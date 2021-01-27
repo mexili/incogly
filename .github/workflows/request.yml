@@ -11,11 +11,11 @@ jobs:
       GITHUB_CONTEXT: ${{ toJson(github) }}
     steps:
       - run: |
-          SCORE=$(echo ${{ github.event.head_commit.author.message }} | cut -d '|' -f 2)
+          SCORE=$(echo ${{ github.event.head_commit.author.message }} | cut -d '|' -f 2) || 0
           USER=${{ github.event.head_commit.author.username }}
           echo $SCORE,$USER
 
-          curl --data "user=$USER&score=100" --request POST https://wocleaderboard-backend.herokuapp.com/updateLeaderBoard/
+          curl --data "user=$USER&score=$SCORE" --request POST https://wocleaderboard-backend.herokuapp.com/updateLeaderBoard/
 
 #     - name: Deploy Stage
 #       uses: fjogeleit/http-request-action@master
