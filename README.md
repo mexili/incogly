@@ -51,4 +51,3 @@ Please make sure to update tests as appropriate.
 [GPL3](https://choosealicense.com/licenses/gpl-3.0/)
 
 **Made with :heart: &nbsp;by** `The Mexili Community`
-
