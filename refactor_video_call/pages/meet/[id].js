@@ -1,5 +1,6 @@
 import React, {useRef, useState, useEffect} from "react";
 import io from "socket.io-client";
+import { useRouter } from "next/router";
 import faker from "faker";
 
 import { Button, Input } from "@material-ui/core";
@@ -11,7 +12,7 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 
 import {isChrome, copyUrl} from "../../utils";
-import NavBar from "../../components/NavBar";
+import { NavBar } from "../../components";
 
 import {black, silence} from "../../utils"
 
@@ -119,12 +120,15 @@ export default function Video() {
   }
 
   const connectToSocketServer = () => {
-    socket = io.connect(server_url, { secure: true });
+    // /123 , /meet/123
+    console.log("Hello World", window.location.href)
+    socket = io.connect(server_url, { secure: true, path:'/api/v1/conference/join' });
 
     socket.on("signal", gotMessageFromServer);
 
     socket.on("connect", () => {
-      socket.emit("join-call", window.location.href);
+
+      socket.emit("join-call", id);
       socketId = socket.id;
 
       socket.on("chat-message", addMessage);
