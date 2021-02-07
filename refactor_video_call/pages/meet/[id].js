@@ -1,20 +1,38 @@
-import React, {useRef, useState, useEffect} from "react";
+import React, {useRef,  useEffect} from "react";
 import io from "socket.io-client";
-import { useRouter } from "next/router";
-import faker from "faker";
+import {useRecoilState} from 'recoil';
 
 import { Button, Input } from "@material-ui/core";
+import { IconButton, Badge} from "@material-ui/core";
+import VideocamIcon from '@material-ui/icons/Videocam'
+import VideocamOffIcon from '@material-ui/icons/VideocamOff'
+import MicIcon from '@material-ui/icons/Mic'
+import MicOffIcon from '@material-ui/icons/MicOff'
+import ScreenShareIcon from '@material-ui/icons/ScreenShare'
+import StopScreenShareIcon from '@material-ui/icons/StopScreenShare'
+import CallEndIcon from '@material-ui/icons/CallEnd'
+import ChatIcon from '@material-ui/icons/Chat'
 
-import { message } from "antd";
-import "antd/dist/antd.css";
 
-import Modal from "react-bootstrap/Modal";
+
+import { Row } from 'reactstrap'
+import Modal from 'react-bootstrap/Modal'
 import "bootstrap/dist/css/bootstrap.css";
 
-import {isChrome, copyUrl} from "../../utils";
+import { isChrome, copyUrl, changeCssVideos } from "../../utils";
 import { NavBar } from "../../components";
-
 import {black, silence} from "../../utils"
+import {
+  videoAtom,
+  audioAtom,
+  screenAtom,
+  screenAvailableAtom,
+  messagesAtom,
+  messageAtom,
+  newMessagesAtom,
+  askForUserNameAtom,
+  userNameAtom
+} from "../../global_state"
 
 const server_url =
   process.env.NODE_ENV === "production"
@@ -33,55 +51,19 @@ var socketId = null;
 var elms = 0;
 
 
-
-
-const changeCssVideos = (main) => {
-    let widthMain = main.offsetWidth;
-    let minWidth = "30%";
-    if ((widthMain * 30) / 100 < 300) {
-      minWidth = "300px";
-    }
-    let minHeight = "40%";
-
-    let height = String(100 / elms) + "%";
-    let width = "";
-    if (elms === 0 || elms === 1) {
-      width = "100%";
-      height = "100%";
-    } else if (elms === 2) {
-      width = "45%";
-      height = "100%";
-    } else if (elms === 3 || elms === 4) {
-      width = "35%";
-      height = "50%";
-    } else {
-      width = String(100 / elms) + "%";
-    }
-
-    let videos = main.querySelectorAll("video");
-    for (let a = 0; a < videos.length; ++a) {
-      videos[a].style.minWidth = minWidth;
-      videos[a].style.minHeight = minHeight;
-      videos[a].style.setProperty("width", width);
-      videos[a].style.setProperty("height", height);
-    }
-
-    return { minWidth, minHeight, width, height };
-  };
-
-
 export default function Video() {
   const localVideoRef = useRef();
   let videoAvailable, audioAvailable = false;
-  const [video, setVideo] = useState(false);
-  const [audio, setAudio] = useState(false);
-  const [screen, setScreen] = useState(false);
-  const [screenAvailable, setScreenAvailable] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
-  const [newMessages, setNewMessages] = useState(0);
-  const [askForUserName, setAskForUserName] = useState(true);
-  const [userName, setNewUserName] = useState(faker.internet.userName());
+
+  const [video, setVideo] = useRecoilState(videoAtom);
+  const [audio, setAudio] = useRecoilState(audioAtom);
+  const [screen, setScreen] = useRecoilState(screenAtom);
+  const [screenAvailable, setScreenAvailable] = useRecoilState(screenAvailableAtom);
+  const [messages, setMessages] = useRecoilState(messagesAtom);
+  const [message, setMessage] = useRecoilState(messageAtom);
+  const [newMessages, setNewMessages] = useRecoilState(newMessagesAtom);
+  const [askForUserName, setAskForUserName] = useRecoilState(askForUserNameAtom);
+  const [userName, setNewUserName] = useRecoilState(userNameAtom);
 
   const getPermissions = async () => {
     try {
@@ -121,13 +103,12 @@ export default function Video() {
 
   const connectToSocketServer = () => {
     // /123 , /meet/123
-    console.log("Hello World", window.location.href)
     socket = io.connect(server_url, { secure: true, path:'/api/v1/conference/join' });
 
     socket.on("signal", gotMessageFromServer);
 
     socket.on("connect", () => {
-
+      console.log("Hello World", window.location.href)
       socket.emit("join-call", id);
       socketId = socket.id;
 
@@ -163,6 +144,7 @@ export default function Video() {
           // Wait for their video stream
           connections[socketListId].onaddstream = (event) => {
             // TODO mute button, full screen button
+            console.log("Helol world")
             var searchVidep = document.querySelector(
               `[data-socket="${socketListId}"]`
             );
@@ -335,7 +317,7 @@ export default function Video() {
       if (navigator.mediaDevices.getDisplayMedia) {
         navigator.mediaDevices
           .getDisplayMedia({ video: true, audio: true })
-          .then(this.getDisplayMediaSuccess)
+          .then(getDisplayMediaSuccess)
           .then((stream) => {})
           .catch((e) => console.log(e));
       }
@@ -348,6 +330,7 @@ export default function Video() {
     } catch (e) {
       console.log(e);
     }
+    console.log("Hello How are how")
 
     window.localStream = stream;
     localVideoRef.current.srcObject = stream;
@@ -393,6 +376,7 @@ export default function Video() {
 
   const gotMessageFromServer = (fromId, message) => {
     var signal = JSON.parse(message);
+      console.log("Hello World")
 
     if (fromId !== socketId) {
       if (signal.sdp) {
@@ -451,10 +435,6 @@ export default function Video() {
     getMedia()
   }
 
-  const openChat = () => {
-    setShowModal(true)
-    setNewMessages(0)
-  }
 
   const handleMessage = (e) => {
     setMessage(e.target.value);
@@ -474,6 +454,24 @@ export default function Video() {
   const handleUserName = (e) => {
     setUserName(e.target.value);
   }
+
+
+  const handleEndCall = () => {
+    try {
+      let tracks = localVideoRef.current.srcObject.getTracks();
+      tracks.forEach((track) => track.stop());
+    } catch (e) {}
+    window.location.href = "/";
+  }
+
+  const openChat = () => {
+    setShowModal(true)
+    setNewMessages(0)
+  }
+
+
+
+
 
   useEffect(()=>{
     connections = {}
@@ -561,7 +559,109 @@ return  (<div>
             </div>
           </div>
         ) : (
-          <NavBar screen={screen} screenAvailable={screenAvailable} audio={audio} video={video} localVideoRef={localVideoRef} handleVideo={handleVideo} handleAudio={handleAudio} handleScreen={handleScreen} />
+            <div>
+            <div
+              className="btn-down"
+              style={{
+                backgroundColor: "whitesmoke",
+                color: "whitesmoke",
+                textAlign: "center",
+              }}
+            >
+              <IconButton
+                style={{ color: "#424242" }}
+                onClick={handleVideo}
+              >
+                {video === true ? (
+                  <VideocamIcon />
+                ) : (
+                  <VideocamOffIcon />
+                )}
+              </IconButton>
+
+              <IconButton
+                style={{ color: "#f44336" }}
+                onClick={handleEndCall}
+              >
+                <CallEndIcon />
+              </IconButton>
+
+              <IconButton
+                style={{ color: "#424242" }}
+                onClick={handleAudio}
+              >
+                {audio === true ? <MicIcon /> : <MicOffIcon />}
+              </IconButton>
+
+              {screenAvailable === true ? (
+                <IconButton
+                  style={{ color: "#424242" }}
+                  onClick={handleScreen}
+                >
+                  {screen === true ? (
+                    <ScreenShareIcon />
+                  ) : (
+                    <StopScreenShareIcon />
+                  )}
+                </IconButton>
+              ) : null}
+
+              <Badge
+                badgeContent={newMessages}
+                max={999}
+                color="secondary"
+                onClick={openChat}
+              >
+                <IconButton
+                  style={{ color: "#424242" }}
+                  onClick={openChat}
+                >
+                  <ChatIcon />
+                </IconButton>
+              </Badge>
+            </div>
+
+
+            <div className="container">
+              <div style={{ paddingTop: "20px" }}>
+                <Input value={window.location.href} disable="true" />
+                <Button
+                  style={{
+                    backgroundColor: "#3f51b5",
+                    color: "whitesmoke",
+                    marginLeft: "20px",
+                    marginTop: "10px",
+                    width: "120px",
+                    fontSize: "10px",
+                  }}
+                  onClick={copyUrl}
+                >
+                  Copy invite link
+                </Button>
+              </div>
+
+              <Row
+                id="main"
+                className="flex-container"
+                style={{ margin: 0, padding: 0 }}
+              >
+                <video
+                  id="my-video"
+                  ref={localVideoRef}
+                  autoPlay
+                  muted
+                  style={{
+                    borderStyle: "solid",
+                    borderColor: "#bdbdbd",
+                    margin: "10px",
+                    objectFit: "fill",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                />
+              </Row>
+            </div>
+          </div>
         )}
       </div>)
 

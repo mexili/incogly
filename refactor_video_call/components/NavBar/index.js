@@ -9,16 +9,39 @@ import ScreenShareIcon from "@material-ui/icons/ScreenShare";
 import StopScreenShareIcon from "@material-ui/icons/StopScreenShare";
 import CallEndIcon from "@material-ui/icons/CallEnd";
 import ChatIcon from "@material-ui/icons/Chat";
+import {useRecoilState} from 'recoil';
 
 import {ChatBox} from "../../components"
 import {isChrome, copyUrl} from "../../utils";
 import { Row } from "reactstrap";
 
+import {
+  videoAtom,
+  audioAtom,
+  screenAtom,
+  showModalAtom,
+  screenAvailableAtom,
+  messagesAtom,
+  messageAtom,
+  newMessagesAtom,
+  askForUserNameAtom,
+  userNameAtom
+} from "../../global_state"
 
-export default function NavBar({video, screenAvailable, audio, localVideoRef, handleVideo, handleAudio, handleScreen}) {
+
+export default function NavBar({  localVideoRef, handleVideo, handleAudio, handleScreen}) {
 
   // need to use Recoil for open chat button, messages
-  let newMessages=0;
+
+  const [video, setVideo] = useRecoilState(videoAtom);
+  const [audio, setAudio] = useRecoilState(audioAtom);
+  const [screen, setScreen] = useRecoilState(screenAtom);
+  const [screenAvailable, setScreenAvailable] = useRecoilState(screenAvailableAtom);
+  const [messages, setMessages] = useRecoilState(messagesAtom);
+  const [message, setMessage] = useRecoilState(messageAtom);
+  const [newMessages, setNewMessages] = useRecoilState(newMessagesAtom);
+  const [askForUserName, setAskForUserName] = useRecoilState(askForUserNameAtom);
+  const [userName, setNewUserName] = useRecoilState(userNameAtom);
 
   const handleEndCall = () => {
     try {
@@ -29,8 +52,8 @@ export default function NavBar({video, screenAvailable, audio, localVideoRef, ha
   }
 
   const openChat = () => {
-    // setShowModal(true)
-    // setNewMessages(0)
+    setShowModal(true)
+    setNewMessages(0)
   }
 
   // const messages = []
@@ -39,13 +62,13 @@ export default function NavBar({video, screenAvailable, audio, localVideoRef, ha
 
 
   const addMessage = (data, sender, socketIdSender) => {
-    // setMessages((prevMessage)=>(
-    //   [...prevMessage, {sender: sender, data: data}]
-    // ))
+    setMessages((prevMessage)=>(
+      [...prevMessage, {sender: sender, data: data}]
+    ))
 
-    // if (socketIdSender !== socketId) {
-    //   setNewMessages(newMessages+1)
-    //   }
+    if (socketIdSender !== socketId) {
+      setNewMessages(newMessages+1)
+      }
   }
 
 
@@ -113,7 +136,7 @@ export default function NavBar({video, screenAvailable, audio, localVideoRef, ha
             </div>
 
 
-            {/* <ChatBox messages={messages} message={message} setMesage={setMessage} /> */}
+             <ChatBox messages={messages} message={message} setMesage={setMessage} />
 
             <div className="container">
               <div style={{ paddingTop: "20px" }}>
