@@ -34,7 +34,7 @@ Have an eye for the best project :eyes:
 
 
 ## Installation
-* `git clone https://github.com/mexili/incog-ly`
+* `git clone https://github.com/mexili/incogly`
 * `cd incogly`
 * `yarn && node server.js`
 
