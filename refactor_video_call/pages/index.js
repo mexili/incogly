@@ -5,7 +5,6 @@ import { Container, Center, Input, Button } from "@chakra-ui/react";
 export default function Home() {
   const [url, setURL] = useState("");
   const router = useRouter();
-
   const join = () => {
     if (url !== "") {
       let new_url = url.trim("/");
@@ -42,11 +41,12 @@ export default function Home() {
           <p style={{ margin: 0, fontWeight: "bold", paddingRight: "50px" }}>
             Start or join a meeting
           </p>
-          <Input placeholder="URL" onChange={(e) =>
-            {
-              setURL(e.target.value)
-            }
-            } />
+          <Input
+            placeholder="URL"
+            onChange={(e) => {
+              setURL(e.target.value);
+            }}
+          />
           <Button
             variant="contained"
             color="primary"
