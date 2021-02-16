@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Button, IconButton } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import "./Home.css"
+import "./Home.scss"
 
 class Home extends Component {
   	constructor (props) {
