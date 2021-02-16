@@ -18,7 +18,7 @@ import 'antd/dist/antd.css'
 import { Row } from 'reactstrap'
 import Modal from 'react-bootstrap/Modal'
 import 'bootstrap/dist/css/bootstrap.css'
-import "./Video.css"
+import "./Video.scss"
 
 const server_url = process.env.NODE_ENV === 'production' ? '' : "http://localhost:5000"
 
