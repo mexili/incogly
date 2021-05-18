@@ -14,7 +14,6 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "faker": "^4.1.0",
-    "node-sass": "^4.14.1",
     "nodemon": "^2.0.2",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
@@ -54,5 +53,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "node-sass": "^6.0.0"
+  }
 }
