@@ -1,8 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 
-import { Input, Button, IconButton } from "@material-ui/core";
-import GitHubIcon from "@material-ui/icons/GitHub";
+import { VStack, Spacer, Input, Button } from "@chakra-ui/react";
 import "./Home.scss";
+import NavBar from "./components/NavBar";
 
 function Home() {
 	const [url, setUrl] = useState("");
@@ -23,43 +23,48 @@ function Home() {
 	};
 
 	return (
-		<div className="container2">
-			<div>
-				<h1 style={{ fontSize: "45px" }}>Incogly</h1>
-				<p style={{ fontWeight: "200" }}>We need a new web page</p>
-			</div>
+		<div className="home_page__container">
+			<NavBar />
+			<VStack>
+				<h1 className="home_page__heading">Connect & Collaborate,</h1>
+				<h1 className="home_page__heading">without friction.</h1>
+				<Spacer />
+				<p className="home_page__sub-heading">
+					Go anonymous, Go incogly.
+				</p>
+				<Spacer />
+				<img src="/images/code-image.png" />
 
-			<div
-				style={{
-					background: "white",
-					width: "30%",
-					height: "auto",
-					padding: "20px",
-					minWidth: "400px",
-					textAlign: "center",
-					margin: "auto",
-					marginTop: "100px",
-				}}
-			>
-				<p
+				<div
 					style={{
-						margin: 0,
-						fontWeight: "bold",
-						paddingRight: "50px",
+						width: "30%",
+						height: "auto",
+						minWidth: "400px",
+						textAlign: "center",
+						margin: "auto",
+						marginTop: "100px",
 					}}
 				>
-					Start or join a meeting
-				</p>
-				<Input placeholder="URL" onChange={(e) => handleChange(e)} />
-				<Button
-					variant="contained"
-					color="primary"
-					onClick={join}
-					style={{ margin: "20px" }}
-				>
-					Go
-				</Button>
-			</div>
+					<VStack>
+						<p className="home_page__text">
+							Start or join a meeting
+						</p>
+						<Spacer />
+						<Input
+							placeholder="URL"
+							onChange={(e) => handleChange(e)}
+						/>
+						<Spacer />
+						<Button
+							className="home_page__join-button"
+							variant="contained"
+							onClick={join}
+						>
+							Start Collaborating
+						</Button>
+					</VStack>
+				</div>
+			</VStack>
 		</div>
 	);
 }

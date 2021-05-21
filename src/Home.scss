@@ -1,16 +1,33 @@
-html, body {
-  	height: 100%;
-}
-body {
-	margin: 0;
-	text-align: center;
-	background-color: whitesmoke;
-}
+@import "./global_styling/variables.scss";
 
-.container2 {
-	padding-top: 30px;
-	margin: auto;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
+.home_page {
+	&__container {
+		height: 100%;
+		width: 100%;
+		margin: auto;
+		text-align: center;
+		background-color: $background_color--dark;
+		background-image: url("/images/background.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+
+	&__heading {
+		font-size: 48px;
+		color: $white_color--dark;
+	}
+
+	&__sub-heading {
+		font-size: 34px;
+		color: $heading_color--dark;
+	}
+
+	&__text {
+		color: $white_color--dark;
+	}
+
+	&__join-button {
+		padding: 10px;
+		background-color: $pink_color--dark;
+	}
 }
