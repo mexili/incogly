@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HStack, Center, Spacer } from "@chakra-ui/react";
+import { HStack, Center, Spacer, Button } from "@chakra-ui/react";
 import "./index.scss";
 
 function NavBar() {
@@ -10,19 +10,27 @@ function NavBar() {
 					Incogly
 				</div>
 				<Spacer />
-				<div className="navbar__nav-item">Discover</div>
-				<div className="navbar__nav-item">Blog</div>
-				<div className="navbar__nav-item">GitHub</div>
-				<div className="navbar__nav-item">Discord</div>
+				<Center>
+					<div className="navbar__nav-item">Discover</div>
+					<div className="navbar__nav-item">Blog</div>
+					<div className="navbar__nav-item">GitHub</div>
+					<div className="navbar__nav-item">Discord</div>
+				</Center>
 				<Spacer />
 				<HStack>
-					<div className="navbar__nav-item navbar__button navbar__button--dark">
+					<Button
+						variant="contained"
+						className="navbar__nav-item navbar__button navbar__button--dark"
+					>
 						Login
-					</div>
+					</Button>
 					<Spacer />
-					<div className="navbar__nav-item navbar__button navbar__button--pink">
+					<Button
+						variant="contained"
+						className="navbar__nav-item navbar__button navbar__button--pink"
+					>
 						Sign Up
-					</div>
+					</Button>
 				</HStack>
 			</HStack>
 		</div>
