@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { HStack, Center, Spacer, Button } from "@chakra-ui/react";
 import "./index.scss";
 
