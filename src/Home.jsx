@@ -33,7 +33,7 @@ function Home() {
 					Go anonymous, Go incogly.
 				</p>
 				<Spacer />
-				<img src="/images/code-image.png" />
+				<img src="/images/code-image.png" alt="Code" />
 
 				<div
 					style={{
