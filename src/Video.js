@@ -31,7 +31,7 @@ let socketId = null;
 let elms = 0;
 
 const Video = () => {
-	const localVideoref = useRef();
+	const localVideoref = useRef(null);
 	let videoAvailable = false;
 	let audioAvailable = false;
 
@@ -621,7 +621,7 @@ const Video = () => {
 		</div>
 	) : (
 		<div>
-			{state.askForUsername === true ? (
+			{state.askForUsername ? (
 				<div>
 					<div
 						style={{
