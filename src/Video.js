@@ -91,16 +91,77 @@ const Video = () => {
 		// eslint-disable-next-line
 	}, []);
 
+	useEffect(()=>{
+		getUserMedia();
+		connectToSocketServer();
+		if (!state.video && !state.audio) {
+			try {
+				let tracks =
+					localVideoref.current.srcObject.getTracks();
+				tracks.forEach((track) => track.stop());
+			} catch (e) {
+				console.log(e);
+			}
+
+			let blackSilence = (...args) =>
+				new MediaStream([black(...args), silence()]);
+			window.localStream = blackSilence();
+			localVideoref.current.srcObject =
+				window.localStream;
+
+			for (let id in connections) {
+				connections[id].addStream(window.localStream);
+				connections[id]
+					.createOffer()
+					// eslint-disable-next-line
+					.then((description) => {
+						connections[id]
+							.setLocalDescription(description)
+							.then(() => {
+								socket.emit(
+									"signal",
+									id,
+									JSON.stringify({
+										sdp: connections[id]
+											.localDescription
+									})
+								);
+							})
+							.catch((e) => console.log(e));
+					});
+			}
+		}
+		// eslint-disable-next-line
+	},[state.video, state.audio]);
+
+	useEffect(()=>{
+		getDislayMedia();
+		if (!state.screen) {
+			try {
+				let tracks =
+					localVideoref.current.srcObject.getTracks();
+				tracks.forEach((track) => track.stop());
+			} catch (e) {
+				console.log(e);
+			}
+
+			let blackSilence = (...args) =>
+				new MediaStream([black(...args), silence()]);
+			window.localStream = blackSilence();
+			localVideoref.current.srcObject =
+				window.localStream;
+
+			getUserMedia();
+		}
+		// eslint-disable-next-line
+	},[state.screen])
+
 	const getMedia = () => {
 		setState(
 			{
 				...state,
 				video: videoAvailable,
 				audio: audioAvailable
-			},
-			() => {
-				getUserMedia();
-				connectToSocketServer();
 			}
 		);
 	};
@@ -162,46 +223,9 @@ const Video = () => {
 				(track.onended = () => {
 					setState(
 						{
+							...state,
 							video: false,
 							audio: false
-						},
-						() => {
-							try {
-								let tracks =
-									localVideoref.current.srcObject.getTracks();
-								tracks.forEach((track) => track.stop());
-							} catch (e) {
-								console.log(e);
-							}
-
-							let blackSilence = (...args) =>
-								new MediaStream([black(...args), silence()]);
-							window.localStream = blackSilence();
-							localVideoref.current.srcObject =
-								window.localStream;
-
-							for (let id in connections) {
-								connections[id].addStream(window.localStream);
-
-								connections[id]
-									.createOffer()
-									// eslint-disable-next-line
-									.then((description) => {
-										connections[id]
-											.setLocalDescription(description)
-											.then(() => {
-												socket.emit(
-													"signal",
-													id,
-													JSON.stringify({
-														sdp: connections[id]
-															.localDescription
-													})
-												);
-											})
-											.catch((e) => console.log(e));
-									});
-							}
 						}
 					);
 				})
@@ -257,24 +281,8 @@ const Video = () => {
 				(track.onended = () => {
 					setState(
 						{
+							...state,
 							screen: false
-						},
-						() => {
-							try {
-								let tracks =
-									localVideoref.current.srcObject.getTracks();
-								tracks.forEach((track) => track.stop());
-							} catch (e) {
-								console.log(e);
-							}
-
-							let blackSilence = (...args) =>
-								new MediaStream([black(...args), silence()]);
-							window.localStream = blackSilence();
-							localVideoref.current.srcObject =
-								window.localStream;
-
-							getUserMedia();
 						}
 					);
 				})
@@ -502,13 +510,13 @@ const Video = () => {
 	};
 
 	const handleVideo = () => {
-		setState({ video: !state.video }, () => getUserMedia());
+		setState({ ...state, video: !state.video });
 	};
 	const handleAudio = () => {
-		setState({ audio: !state.audio }, () => getUserMedia());
+		setState({ ...state, audio: !state.audio });
 	};
 	const handleScreen = () => {
-		setState({ screen: !state.screen }, () => getDislayMedia());
+		setState({ ...state, screen: !state.screen });
 	};
 
 	const handleEndCall = () => {
@@ -520,29 +528,30 @@ const Video = () => {
 	};
 
 	const openChat = () => {
-		setState({ showModal: true, newmessages: 0 });
+		setState({ ...state, showModal: true, newmessages: 0 });
 	};
 	const closeChat = () => {
-		setState({ showModal: false });
+		setState({ ...state, showModal: false });
 	};
 	const handleMessage = (e) => {
-		setState({ message: e.target.value });
+		setState({ ...state, message: e.target.value });
 	};
 
 	const addMessage = (data, sender, socketIdSender) => {
 		setState((prevState) => ({
+			...state,
 			messages: [...prevState.messages, { sender: sender, data: data }]
 		}));
 		if (socketIdSender !== socketId) {
-			setState({ newmessages: state.newmessages + 1 });
+			setState({ ...state, newmessages: state.newmessages + 1 });
 		}
 	};
 
-	const handleUsername = (e) => setState({ username: e.target.value });
+	const handleUsername = (e) => setState({ ...state, username: e.target.value });
 
 	const sendMessage = () => {
 		socket.emit("chat-message", state.message, state.username);
-		setState({ message: "", sender: state.username });
+		setState({ ...state, message: "", sender: state.username });
 	};
 
 	const copyUrl = () => {
@@ -572,7 +581,13 @@ const Video = () => {
 		);
 	};
 
-	const connect = () => setState({ askForUsername: false }, () => getMedia());
+	useEffect(()=>{
+		if (!state.askForUsername) {
+			getMedia();
+		}
+	// eslint-disable-next-line
+	},[state.askForUsername])
+	const connect = () => setState({ ...state, askForUsername: false });
 
 	const isChrome = () => {
 		let userAgent = (
@@ -750,7 +765,7 @@ const Video = () => {
 								textAlign: "left"
 							}}
 						>
-							{state.messages.length > 0 ? (
+							{state.messages && state.messages.length > 0 ? (
 								state.messages.map((item, index) => (
 									<div
 										key={index}
