@@ -31,8 +31,7 @@ let socketId = null;
 let elms = 0;
 
 const Video = () => {
-	const localVideoref = useRef(null);
-	
+	const localVideoref = useRef(null);	
 	const [videoAvailable, setVideoAvailable] = useState(false);
 	const [audioAvailable, setAudioAvailable] = useState(false);
 
@@ -66,7 +65,8 @@ const Video = () => {
 			} else {
 				setState({ ...state, screenAvailable: false });
 			}
-			if (videoAvailable || audioAvailable) {
+
+      if (videoAvailable || audioAvailable) {
 				navigator.mediaDevices
 					.getUserMedia({
 						video: videoAvailable,
@@ -75,7 +75,6 @@ const Video = () => {
 					.then((stream) => {
 						window.localStream = stream;
 						localVideoref.current.srcObject = window.localStream;
-
 					})
 					.then((stream) => {})
 					.catch((e) => console.log(e));
@@ -239,7 +238,6 @@ const Video = () => {
 		}
 
 		window.localStream = stream;
-		console.log(localVideoref.current.srcObject, stream)
 		localVideoref.current.srcObject = stream;
 
 		for (let id in connections) {
@@ -295,10 +293,8 @@ const Video = () => {
 		} catch (e) {
 			console.log(e);
 		}
-
 		window.localStream = stream;
 		localVideoref.current.srcObject = stream;
-
 
 		for (let id in connections) {
 			if (id === socketId) continue;
@@ -461,7 +457,6 @@ const Video = () => {
 						if (searchVidep !== null) {
 							// if i don't do this check it make an empyt square
 							searchVidep.srcObject = event.stream;
-
 						} else {
 							elms = clients.length;
 							let main = document.getElementById("main");
