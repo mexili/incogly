@@ -51,6 +51,7 @@ function Home() {
 						</p>
 						<Spacer />
 						<Input
+							className="home_page__input_box"
 							placeholder="URL"
 							onChange={(e) => handleChange(e)}
 						/>

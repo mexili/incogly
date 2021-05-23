@@ -2,6 +2,8 @@
 
 .home_page {
 	&__container {
+		position: fixed;
+		overflow: auto;
 		height: 100%;
 		width: 100%;
 		margin: auto;
@@ -12,6 +14,9 @@
 		background-size: cover;
 	}
 
+	&__input_box {
+		color: #fff;
+	}
 	&__heading {
 		font-size: 48px;
 		color: $white_color--dark;
