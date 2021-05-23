@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import faker from "faker";
 
@@ -31,9 +31,9 @@ let socketId = null;
 let elms = 0;
 
 const Video = () => {
-	const localVideoref = useRef(null);
-	let videoAvailable = false;
-	let audioAvailable = false;
+	const localVideoref = useRef(null);	
+	const [videoAvailable, setVideoAvailable] = useState(false);
+	const [audioAvailable, setAudioAvailable] = useState(false);
 
 	const [state, setState] = useState({
 		video: false,
@@ -50,17 +50,15 @@ const Video = () => {
 
 	let connections = {};
 
-	const getPermissions = async () => {
+	const getPermissions = useCallback(async () => {
 		try {
-			await navigator.mediaDevices
-				.getUserMedia({ video: true })
-				.then(() => (videoAvailable = true))
-				.catch(() => (videoAvailable = false));
+			const videoValidation = await navigator.mediaDevices.getUserMedia({ video: true })
+			if (videoValidation.active) setVideoAvailable(true);
+			else setVideoAvailable(false);
 
-			await navigator.mediaDevices
-				.getUserMedia({ audio: true })
-				.then(() => (audioAvailable = true))
-				.catch(() => (audioAvailable = false));
+			const audioValidation = await navigator.mediaDevices.getUserMedia({ audio: true })
+			if (audioValidation.active) setAudioAvailable(true)
+			else setAudioAvailable(false)
 
 			if (navigator.mediaDevices.getDisplayMedia) {
 				setState({ ...state, screenAvailable: true });
@@ -68,7 +66,7 @@ const Video = () => {
 				setState({ ...state, screenAvailable: false });
 			}
 
-			if (videoAvailable || audioAvailable) {
+      if (videoAvailable || audioAvailable) {
 				navigator.mediaDevices
 					.getUserMedia({
 						video: videoAvailable,
@@ -76,7 +74,7 @@ const Video = () => {
 					})
 					.then((stream) => {
 						window.localStream = stream;
-						localVideoref.current.srcObject = stream;
+						localVideoref.current.srcObject = window.localStream;
 					})
 					.then((stream) => {})
 					.catch((e) => console.log(e));
@@ -84,7 +82,8 @@ const Video = () => {
 		} catch (e) {
 			console.log(e);
 		}
-	};
+		// eslint-disable-next-line
+	},[videoAvailable, audioAvailable]);
 
 	useEffect(() => {
 		getPermissions();
@@ -94,7 +93,7 @@ const Video = () => {
 	useEffect(()=>{
 		getUserMedia();
 		connectToSocketServer();
-		if (!state.video && !state.audio) {
+		if (!state.video && localVideoref.current.srcObject) {
 			try {
 				let tracks =
 					localVideoref.current.srcObject.getTracks();
@@ -132,11 +131,54 @@ const Video = () => {
 			}
 		}
 		// eslint-disable-next-line
-	},[state.video, state.audio]);
+	},[state.video, localVideoref]);
+
+	useEffect(()=>{
+		getUserMedia();
+		connectToSocketServer();
+		if (!state.audio && localVideoref.current.srcObject) {
+			try {
+				let tracks =
+					localVideoref.current.srcObject.getTracks();
+				tracks.forEach((track) => track.stop());
+			} catch (e) {
+				console.log(e);
+			}
+
+			let blackSilence = (...args) =>
+				new MediaStream([black(...args), silence()]);
+			window.localStream = blackSilence();
+			localVideoref.current.srcObject =
+				window.localStream;
+
+			for (let id in connections) {
+				connections[id].addStream(window.localStream);
+				connections[id]
+					.createOffer()
+					// eslint-disable-next-line
+					.then((description) => {
+						connections[id]
+							.setLocalDescription(description)
+							.then(() => {
+								socket.emit(
+									"signal",
+									id,
+									JSON.stringify({
+										sdp: connections[id]
+											.localDescription
+									})
+								);
+							})
+							.catch((e) => console.log(e));
+					});
+			}
+		}
+		// eslint-disable-next-line
+	},[state.audio,localVideoref]);
 
 	useEffect(()=>{
 		getDislayMedia();
-		if (!state.screen) {
+		if (!state.screen && localVideoref.current.srcObject) {
 			try {
 				let tracks =
 					localVideoref.current.srcObject.getTracks();
@@ -156,7 +198,7 @@ const Video = () => {
 		// eslint-disable-next-line
 	},[state.screen])
 
-	const getMedia = () => {
+	const getMedia = useCallback(() => {
 		setState(
 			{
 				...state,
@@ -164,11 +206,11 @@ const Video = () => {
 				audio: audioAvailable
 			}
 		);
-	};
+	},[state, videoAvailable,audioAvailable]);
 
-	const getUserMedia = () => {
+	const getUserMedia = useCallback(() => {
 		if (
-			(state.video && videoAvailable) ||
+			(state.video && videoAvailable ) ||
 			(state.audio && audioAvailable)
 		) {
 			navigator.mediaDevices
@@ -185,7 +227,8 @@ const Video = () => {
 				tracks.forEach((track) => track.stop());
 			} catch (e) {}
 		}
-	};
+		// eslint-disable-next-line
+	}, [state.video, state.audio,videoAvailable,audioAvailable]);
 
 	const getUserMediaSuccess = (stream) => {
 		try {
@@ -250,7 +293,6 @@ const Video = () => {
 		} catch (e) {
 			console.log(e);
 		}
-
 		window.localStream = stream;
 		localVideoref.current.srcObject = stream;
 
@@ -364,7 +406,6 @@ const Video = () => {
 	};
 
 	const connectToSocketServer = () => {
-		console.log(server_url, window.location.href);
 		socket = io.connect(server_url, {
 			secure: true,
 			path: "/api/v1/conference/join"
@@ -493,6 +534,7 @@ const Video = () => {
 		let ctx = new AudioContext();
 		let oscillator = ctx.createOscillator();
 		let dst = oscillator.connect(ctx.createMediaStreamDestination());
+		ctx.resume();
 		oscillator.start();
 		ctx.resume();
 		return Object.assign(dst.stream.getAudioTracks()[0], {
@@ -587,6 +629,7 @@ const Video = () => {
 		}
 	// eslint-disable-next-line
 	},[state.askForUsername])
+
 	const connect = () => setState({ ...state, askForUsername: false });
 
 	const isChrome = () => {
@@ -668,7 +711,7 @@ const Video = () => {
 						}}
 					>
 						<video
-							id="my-video"
+							id="my-video1"
 							ref={localVideoref}
 							autoPlay
 							muted
@@ -827,7 +870,7 @@ const Video = () => {
 							style={{ margin: 0, padding: 0 }}
 						>
 							<video
-								id="my-video"
+								id="my-video2"
 								ref={localVideoref}
 								autoPlay
 								muted
