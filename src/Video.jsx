@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import faker from "faker";
 
-import { IconButton, Badge, Input, Button } from "@material-ui/core";
+import { IconButton, Badge, Input } from "@material-ui/core";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import MicIcon from "@material-ui/icons/Mic";
@@ -11,6 +11,7 @@ import ScreenShareIcon from "@material-ui/icons/ScreenShare";
 import StopScreenShareIcon from "@material-ui/icons/StopScreenShare";
 import CallEndIcon from "@material-ui/icons/CallEnd";
 import ChatIcon from "@material-ui/icons/Chat";
+import { Center, VStack, Button } from "@chakra-ui/react";
 
 import { message } from "antd";
 import "antd/dist/antd.css";
@@ -19,21 +20,22 @@ import { Row } from "reactstrap";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "./Video.scss";
+import { isChrome, changeCssVideos } from "./utils";
 
 const server_url =
 	process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
 
 const peerConnectionConfig = {
-	iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+	iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
 };
 let socket = null;
 let socketId = null;
 let elms = 0;
 
 const Video = () => {
-	const localVideoref = useRef(null);	
-	const [videoAvailable, setVideoAvailable] = useState(false);
-	const [audioAvailable, setAudioAvailable] = useState(false);
+	const localVideoref = useRef(null);
+	const [videoAvailable, setVideoAvailable] = useState(true);
+	const [audioAvailable, setAudioAvailable] = useState(true);
 
 	const [state, setState] = useState({
 		video: false,
@@ -45,20 +47,24 @@ const Video = () => {
 		message: "",
 		newmessages: 0,
 		askForUsername: true,
-		username: faker.internet.userName()
+		username: faker.internet.userName(),
 	});
 
 	let connections = {};
 
 	const getPermissions = useCallback(async () => {
 		try {
-			const videoValidation = await navigator.mediaDevices.getUserMedia({ video: true })
+			const videoValidation = await navigator.mediaDevices.getUserMedia({
+				video: true,
+			});
 			if (videoValidation.active) setVideoAvailable(true);
 			else setVideoAvailable(false);
 
-			const audioValidation = await navigator.mediaDevices.getUserMedia({ audio: true })
-			if (audioValidation.active) setAudioAvailable(true)
-			else setAudioAvailable(false)
+			const audioValidation = await navigator.mediaDevices.getUserMedia({
+				audio: true,
+			});
+			if (audioValidation.active) setAudioAvailable(true);
+			else setAudioAvailable(false);
 
 			if (navigator.mediaDevices.getDisplayMedia) {
 				setState({ ...state, screenAvailable: true });
@@ -66,15 +72,15 @@ const Video = () => {
 				setState({ ...state, screenAvailable: false });
 			}
 
-      if (videoAvailable || audioAvailable) {
+			if (videoAvailable || audioAvailable) {
 				navigator.mediaDevices
 					.getUserMedia({
 						video: videoAvailable,
-						audio: audioAvailable
+						audio: audioAvailable,
 					})
 					.then((stream) => {
 						window.localStream = stream;
-						localVideoref.current.srcObject = window.localStream;
+						localVideoref.current.srcObject = stream;
 					})
 					.then((stream) => {})
 					.catch((e) => console.log(e));
@@ -83,20 +89,19 @@ const Video = () => {
 			console.log(e);
 		}
 		// eslint-disable-next-line
-	},[videoAvailable, audioAvailable]);
+	}, [videoAvailable, audioAvailable]);
 
 	useEffect(() => {
 		getPermissions();
 		// eslint-disable-next-line
 	}, []);
 
-	useEffect(()=>{
+	useEffect(() => {
 		getUserMedia();
 		connectToSocketServer();
 		if (!state.video && localVideoref.current.srcObject) {
 			try {
-				let tracks =
-					localVideoref.current.srcObject.getTracks();
+				let tracks = localVideoref.current.srcObject.getTracks();
 				tracks.forEach((track) => track.stop());
 			} catch (e) {
 				console.log(e);
@@ -105,8 +110,7 @@ const Video = () => {
 			let blackSilence = (...args) =>
 				new MediaStream([black(...args), silence()]);
 			window.localStream = blackSilence();
-			localVideoref.current.srcObject =
-				window.localStream;
+			localVideoref.current.srcObject = window.localStream;
 
 			for (let id in connections) {
 				connections[id].addStream(window.localStream);
@@ -121,8 +125,7 @@ const Video = () => {
 									"signal",
 									id,
 									JSON.stringify({
-										sdp: connections[id]
-											.localDescription
+										sdp: connections[id].localDescription,
 									})
 								);
 							})
@@ -131,15 +134,14 @@ const Video = () => {
 			}
 		}
 		// eslint-disable-next-line
-	},[state.video, localVideoref]);
+	}, [state.video, localVideoref]);
 
-	useEffect(()=>{
+	useEffect(() => {
 		getUserMedia();
 		connectToSocketServer();
 		if (!state.audio && localVideoref.current.srcObject) {
 			try {
-				let tracks =
-					localVideoref.current.srcObject.getTracks();
+				let tracks = localVideoref.current.srcObject.getTracks();
 				tracks.forEach((track) => track.stop());
 			} catch (e) {
 				console.log(e);
@@ -148,8 +150,7 @@ const Video = () => {
 			let blackSilence = (...args) =>
 				new MediaStream([black(...args), silence()]);
 			window.localStream = blackSilence();
-			localVideoref.current.srcObject =
-				window.localStream;
+			localVideoref.current.srcObject = window.localStream;
 
 			for (let id in connections) {
 				connections[id].addStream(window.localStream);
@@ -164,8 +165,7 @@ const Video = () => {
 									"signal",
 									id,
 									JSON.stringify({
-										sdp: connections[id]
-											.localDescription
+										sdp: connections[id].localDescription,
 									})
 								);
 							})
@@ -174,14 +174,13 @@ const Video = () => {
 			}
 		}
 		// eslint-disable-next-line
-	},[state.audio,localVideoref]);
+	}, [state.audio, localVideoref]);
 
-	useEffect(()=>{
+	useEffect(() => {
 		getDislayMedia();
 		if (!state.screen && localVideoref.current.srcObject) {
 			try {
-				let tracks =
-					localVideoref.current.srcObject.getTracks();
+				let tracks = localVideoref.current.srcObject.getTracks();
 				tracks.forEach((track) => track.stop());
 			} catch (e) {
 				console.log(e);
@@ -190,33 +189,30 @@ const Video = () => {
 			let blackSilence = (...args) =>
 				new MediaStream([black(...args), silence()]);
 			window.localStream = blackSilence();
-			localVideoref.current.srcObject =
-				window.localStream;
+			localVideoref.current.srcObject = window.localStream;
 
 			getUserMedia();
 		}
 		// eslint-disable-next-line
-	},[state.screen])
+	}, [state.screen]);
 
 	const getMedia = useCallback(() => {
-		setState(
-			{
-				...state,
-				video: videoAvailable,
-				audio: audioAvailable
-			}
-		);
-	},[state, videoAvailable,audioAvailable]);
+		setState({
+			...state,
+			video: videoAvailable,
+			audio: audioAvailable,
+		});
+	}, [state, videoAvailable, audioAvailable]);
 
 	const getUserMedia = useCallback(() => {
 		if (
-			(state.video && videoAvailable ) ||
+			(state.video && videoAvailable) ||
 			(state.audio && audioAvailable)
 		) {
 			navigator.mediaDevices
 				.getUserMedia({
 					video: state.video,
-					audio: state.audio
+					audio: state.audio,
 				})
 				.then(getUserMediaSuccess)
 				.then((stream) => {})
@@ -228,7 +224,7 @@ const Video = () => {
 			} catch (e) {}
 		}
 		// eslint-disable-next-line
-	}, [state.video, state.audio,videoAvailable,audioAvailable]);
+	}, [state.video, state.audio, videoAvailable, audioAvailable]);
 
 	const getUserMediaSuccess = (stream) => {
 		try {
@@ -253,7 +249,7 @@ const Video = () => {
 							"signal",
 							id,
 							JSON.stringify({
-								sdp: connections[id].localDescription
+								sdp: connections[id].localDescription,
 							})
 						);
 					})
@@ -264,13 +260,11 @@ const Video = () => {
 		stream.getTracks().forEach(
 			(track) =>
 				(track.onended = () => {
-					setState(
-						{
-							...state,
-							video: false,
-							audio: false
-						}
-					);
+					setState({
+						...state,
+						video: false,
+						audio: false,
+					});
 				})
 		);
 	};
@@ -310,7 +304,7 @@ const Video = () => {
 							"signal",
 							id,
 							JSON.stringify({
-								sdp: connections[id].localDescription
+								sdp: connections[id].localDescription,
 							})
 						);
 					})
@@ -321,12 +315,10 @@ const Video = () => {
 		stream.getTracks().forEach(
 			(track) =>
 				(track.onended = () => {
-					setState(
-						{
-							...state,
-							screen: false
-						}
-					);
+					setState({
+						...state,
+						screen: false,
+					});
 				})
 		);
 	};
@@ -350,8 +342,9 @@ const Video = () => {
 												"signal",
 												fromId,
 												JSON.stringify({
-													sdp: connections[fromId]
-														.localDescription
+													sdp:
+														connections[fromId]
+															.localDescription,
 												})
 											);
 										})
@@ -371,44 +364,10 @@ const Video = () => {
 		}
 	};
 
-	const changeCssVideos = (main) => {
-		let widthMain = main.offsetWidth;
-		let minWidth = "30%";
-		if ((widthMain * 30) / 100 < 300) {
-			minWidth = "300px";
-		}
-		let minHeight = "40%";
-
-		let height = String(100 / elms) + "%";
-		let width = "";
-		if (elms === 0 || elms === 1) {
-			width = "100%";
-			height = "100%";
-		} else if (elms === 2) {
-			width = "45%";
-			height = "100%";
-		} else if (elms === 3 || elms === 4) {
-			width = "35%";
-			height = "50%";
-		} else {
-			width = String(100 / elms) + "%";
-		}
-
-		let videos = main.querySelectorAll("video");
-		for (let a = 0; a < videos.length; ++a) {
-			videos[a].style.minWidth = minWidth;
-			videos[a].style.minHeight = minHeight;
-			videos[a].style.setProperty("width", width);
-			videos[a].style.setProperty("height", height);
-		}
-
-		return { minWidth, minHeight, width, height };
-	};
-
 	const connectToSocketServer = () => {
 		socket = io.connect(server_url, {
 			secure: true,
-			path: "/api/v1/conference/join"
+			path: "/api/v1/conference/join",
 		});
 
 		socket.on("signal", gotMessageFromServer);
@@ -426,7 +385,7 @@ const Video = () => {
 					video.parentNode.removeChild(video);
 
 					let main = document.getElementById("main");
-					changeCssVideos(main);
+					changeCssVideos(main, elms);
 				}
 			});
 
@@ -460,7 +419,7 @@ const Video = () => {
 						} else {
 							elms = clients.length;
 							let main = document.getElementById("main");
-							let cssMesure = changeCssVideos(main);
+							let cssMesure = changeCssVideos(main, elms);
 
 							let video = document.createElement("video");
 
@@ -471,7 +430,7 @@ const Video = () => {
 								margin: "10px",
 								borderStyle: "solid",
 								borderColor: "#bdbdbd",
-								objectFit: "fill"
+								objectFit: "fill",
 							};
 							for (let i in css) video.style[i] = css[i];
 
@@ -517,8 +476,9 @@ const Video = () => {
 										"signal",
 										id2,
 										JSON.stringify({
-											sdp: connections[id2]
-												.localDescription
+											sdp:
+												connections[id2]
+													.localDescription,
 										})
 									);
 								})
@@ -538,13 +498,13 @@ const Video = () => {
 		oscillator.start();
 		ctx.resume();
 		return Object.assign(dst.stream.getAudioTracks()[0], {
-			enabled: false
+			enabled: false,
 		});
 	};
 	const black = ({ width = 640, height = 480 } = {}) => {
 		let canvas = Object.assign(document.createElement("canvas"), {
 			width,
-			height
+			height,
 		});
 		canvas.getContext("2d").fillRect(0, 0, width, height);
 		let stream = canvas.captureStream();
@@ -582,14 +542,15 @@ const Video = () => {
 	const addMessage = (data, sender, socketIdSender) => {
 		setState((prevState) => ({
 			...state,
-			messages: [...prevState.messages, { sender: sender, data: data }]
+			messages: [...prevState.messages, { sender: sender, data: data }],
 		}));
 		if (socketIdSender !== socketId) {
 			setState({ ...state, newmessages: state.newmessages + 1 });
 		}
 	};
 
-	const handleUsername = (e) => setState({ ...state, username: e.target.value });
+	const handleUsername = (e) =>
+		setState({ ...state, username: e.target.value });
 
 	const sendMessage = () => {
 		socket.emit("chat-message", state.message, state.username);
@@ -623,120 +584,61 @@ const Video = () => {
 		);
 	};
 
-	useEffect(()=>{
+	useEffect(() => {
 		if (!state.askForUsername) {
 			getMedia();
 		}
-	// eslint-disable-next-line
-	},[state.askForUsername])
+		// eslint-disable-next-line
+	}, [state.askForUsername]);
 
 	const connect = () => setState({ ...state, askForUsername: false });
 
-	const isChrome = () => {
-		let userAgent = (
-			navigator &&
-			(navigator.userAgent || "")
-		).toLowerCase();
-		let vendor = (navigator && (navigator.vendor || "")).toLowerCase();
-		let matchChrome = /google inc/.test(vendor)
-			? userAgent.match(/(?:chrome|crios)\/(\d+)/)
-			: null;
-		// let matchFirefox = userAgent.match(/(?:firefox|fxios)\/(\d+)/)
-		// return matchChrome !== null || matchFirefox !== null
-		return matchChrome !== null;
-	};
-
 	return !isChrome() ? (
-		<div
-			style={{
-				background: "white",
-				width: "30%",
-				height: "auto",
-				padding: "20px",
-				minWidth: "400px",
-				textAlign: "center",
-				margin: "auto",
-				marginTop: "50px",
-				justifyContent: "center"
-			}}
-		>
+		<div className="chrome__notifier">
 			<h1>Sorry, this works only with Google Chrome</h1>
 		</div>
 	) : (
 		<div>
 			{state.askForUsername ? (
-				<div>
-					<div
-						style={{
-							background: "white",
-							width: "30%",
-							height: "auto",
-							padding: "20px",
-							minWidth: "400px",
-							textAlign: "center",
-							margin: "auto",
-							marginTop: "50px",
-							justifyContent: "center"
-						}}
-					>
-						<p
-							style={{
-								margin: 0,
-								fontWeight: "bold",
-								paddingRight: "50px"
-							}}
-						>
-							Set your username
-						</p>
-						<Input
-							placeholder="Username"
-							value={state.username}
-							onChange={(e) => handleUsername(e)}
-						/>
-						<Button
-							variant="contained"
-							color="primary"
-							onClick={connect}
-							style={{ margin: "20px" }}
-						>
-							Connect
-						</Button>
-					</div>
+				<Center>
+					<VStack>
+						<div className="username-selector__container">
+							<p className="username-selector__label">
+								Set your username
+							</p>
+							<Input
+								placeholder="Username"
+								value={state.username}
+								onChange={(e) => handleUsername(e)}
+							/>
+							<Button
+								variant="contained"
+								color="primary"
+								onClick={connect}
+								className="username-selector__button"
+							>
+								Connect
+							</Button>
+						</div>
 
-					<div
-						style={{
-							justifyContent: "center",
-							textAlign: "center",
-							paddingTop: "40px"
-						}}
-					>
-						<video
-							id="my-video1"
-							ref={localVideoref}
-							autoPlay
-							muted
-							style={{
-								borderStyle: "solid",
-								borderColor: "#bdbdbd",
-								objectFit: "fill",
-								width: "60%",
-								height: "30%"
-							}}
-						></video>
-					</div>
-				</div>
+						<Center>
+							<div className="username-selector__preview_video_wrapper">
+								<video
+									className="username-selector__preview_video"
+									id="my-video1"
+									ref={localVideoref}
+									autoPlay
+									muted
+								/>
+							</div>
+						</Center>
+					</VStack>
+				</Center>
 			) : (
 				<div>
-					<div
-						className="btn-down"
-						style={{
-							backgroundColor: "whitesmoke",
-							color: "whitesmoke",
-							textAlign: "center"
-						}}
-					>
+					<div className="video_call_screen__call_buttons">
 						<IconButton
-							style={{ color: "#424242" }}
+							className="video_call_screen__call_buttons--webcam-icon"
 							onClick={handleVideo}
 						>
 							{state.video === true ? (
@@ -747,14 +649,14 @@ const Video = () => {
 						</IconButton>
 
 						<IconButton
-							style={{ color: "#f44336" }}
+							className="video_call_screen__call_buttons--endcall-icon"
 							onClick={handleEndCall}
 						>
 							<CallEndIcon />
 						</IconButton>
 
 						<IconButton
-							style={{ color: "#424242" }}
+							className="video_call_screen__call_buttons--mic-icon"
 							onClick={handleAudio}
 						>
 							{state.audio === true ? (
@@ -766,7 +668,7 @@ const Video = () => {
 
 						{state.screenAvailable === true ? (
 							<IconButton
-								style={{ color: "#424242" }}
+								className="video_call_screen__call_buttons--screenshare-icon"
 								onClick={handleScreen}
 							>
 								{state.screen === true ? (
@@ -784,7 +686,7 @@ const Video = () => {
 							onClick={openChat}
 						>
 							<IconButton
-								style={{ color: "#424242" }}
+								className="video_call_screen__call_buttons--chat-icon"
 								onClick={openChat}
 							>
 								<ChatIcon />
@@ -795,19 +697,12 @@ const Video = () => {
 					<Modal
 						show={state.showModal}
 						onHide={closeChat}
-						style={{ zIndex: "999999" }}
+						className="video_call_screen__chat_modal"
 					>
 						<Modal.Header closeButton>
 							<Modal.Title>Chat Room</Modal.Title>
 						</Modal.Header>
-						<Modal.Body
-							style={{
-								overflow: "auto",
-								overflowY: "auto",
-								height: "400px",
-								textAlign: "left"
-							}}
-						>
+						<Modal.Body className="video_call_screen__chat_modal__body">
 							{state.messages && state.messages.length > 0 ? (
 								state.messages.map((item, index) => (
 									<div
@@ -816,7 +711,7 @@ const Video = () => {
 									>
 										<p
 											style={{
-												wordBreak: "break-all"
+												wordBreak: "break-all",
 											}}
 										>
 											<b>{item.sender}</b>: {item.data}
@@ -827,7 +722,7 @@ const Video = () => {
 								<p>No message yet</p>
 							)}
 						</Modal.Body>
-						<Modal.Footer className="div-send-msg">
+						<Modal.Footer className="video_call_screen__chat_modal__footer">
 							<Input
 								placeholder="Message"
 								value={state.message}
@@ -837,27 +732,22 @@ const Video = () => {
 								variant="contained"
 								color="primary"
 								onClick={sendMessage}
+								className="video_call_screen__chat_modal__send_button"
 							>
 								Send
 							</Button>
 						</Modal.Footer>
 					</Modal>
 
-					<div className="container">
+					<div className="video_call_screen__invitation_link__container">
 						<div style={{ paddingTop: "20px" }}>
 							<Input
 								value={window.location.href}
 								disable="true"
-							></Input>
+							/>
 							<Button
-								style={{
-									backgroundColor: "#3f51b5",
-									color: "whitesmoke",
-									marginLeft: "20px",
-									marginTop: "10px",
-									width: "120px",
-									fontSize: "10px"
-								}}
+								className="video_call_screen__invitation_link__invite_button"
+								variant="contained"
 								onClick={copyUrl}
 							>
 								Copy invite link
@@ -866,23 +756,15 @@ const Video = () => {
 
 						<Row
 							id="main"
-							className="flex-container"
-							style={{ margin: 0, padding: 0 }}
+							className="video_call_screen__video_stream_container"
 						>
 							<video
 								id="my-video2"
+								className="video_call_screen__video_stream"
 								ref={localVideoref}
 								autoPlay
 								muted
-								style={{
-									borderStyle: "solid",
-									borderColor: "#bdbdbd",
-									margin: "10px",
-									objectFit: "fill",
-									width: "100%",
-									height: "100%"
-								}}
-							></video>
+							/>
 						</Row>
 					</div>
 				</div>

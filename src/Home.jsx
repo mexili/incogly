@@ -14,12 +14,11 @@ function Home() {
 	const join = () => {
 		let tempUrl = "";
 		if (url !== "") {
-			tempUrl = url.split("");
-			window.location.href = `/${tempUrl[tempUrl.lenght - 1]}`;
+			tempUrl = url.trim();
 		} else {
 			tempUrl = Math.random().toString(36).substring(2, 7);
-			window.location.href = `/${tempUrl}`;
 		}
+		window.location.href = `/${tempUrl}`;
 	};
 
 	return (
