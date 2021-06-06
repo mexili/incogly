@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-
+import { useHistory } from "react-router-dom";
 import { VStack, Spacer, Input, Button } from "@chakra-ui/react";
 import "./Home.scss";
 import NavBar from "./components/NavBar";
 
-function Home() {
+const Home = () => {
+	const history = useHistory();
 	const [url, setUrl] = useState("");
 
 	const handleChange = (e) => {
@@ -18,14 +19,16 @@ function Home() {
 		} else {
 			tempUrl = Math.random().toString(36).substring(2, 7);
 		}
-		window.location.href = `/${tempUrl}`;
+		history.push(`/${tempUrl}`);
 	};
 
 	return (
 		<div className="home_page__container">
 			<NavBar />
 			<VStack>
-				<h1 className="home_page__heading">Connect & Collaborate,</h1>
+				<h1 className="home_page__heading">
+					Connect &amp; Collaborate,
+				</h1>
 				<h1 className="home_page__heading">without friction.</h1>
 				<Spacer />
 				<p className="home_page__sub-heading">
@@ -34,16 +37,7 @@ function Home() {
 				<Spacer />
 				<img src="/images/code-image.png" alt="Code" />
 
-				<div
-					style={{
-						width: "30%",
-						height: "auto",
-						minWidth: "400px",
-						textAlign: "center",
-						margin: "auto",
-						marginTop: "100px",
-					}}
-				>
+				<div className="home_page__url_container">
 					<VStack>
 						<p className="home_page__text">
 							Start or join a meeting
@@ -56,7 +50,7 @@ function Home() {
 						/>
 						<Spacer />
 						<Button
-							className="home_page__join-button"
+							className="home_page__join_button"
 							variant="contained"
 							onClick={join}
 						>
@@ -67,6 +61,6 @@ function Home() {
 			</VStack>
 		</div>
 	);
-}
+};
 
 export default Home;

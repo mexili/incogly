@@ -98,6 +98,8 @@ const Video = () => {
 
 	useEffect(() => {
 		getUserMedia();
+		socket = null;
+		disconnectSocket();
 		connectToSocketServer();
 		if (!state.video && localVideoref.current.srcObject) {
 			try {
@@ -138,6 +140,7 @@ const Video = () => {
 
 	useEffect(() => {
 		getUserMedia();
+		disconnectSocket();
 		connectToSocketServer();
 		if (!state.audio && localVideoref.current.srcObject) {
 			try {
@@ -342,9 +345,8 @@ const Video = () => {
 												"signal",
 												fromId,
 												JSON.stringify({
-													sdp:
-														connections[fromId]
-															.localDescription,
+													sdp: connections[fromId]
+														.localDescription,
 												})
 											);
 										})
@@ -361,6 +363,13 @@ const Video = () => {
 					.addIceCandidate(new RTCIceCandidate(signal.ice))
 					.catch((e) => console.log(e));
 			}
+		}
+	};
+
+	const disconnectSocket = () => {
+		if (socket) {
+			socket.disconnect();
+			socket = null;
 		}
 	};
 
@@ -476,9 +485,8 @@ const Video = () => {
 										"signal",
 										id2,
 										JSON.stringify({
-											sdp:
-												connections[id2]
-													.localDescription,
+											sdp: connections[id2]
+												.localDescription,
 										})
 									);
 								})

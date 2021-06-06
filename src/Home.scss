@@ -27,11 +27,19 @@
 		color: $heading_color--dark;
 	}
 
+	&__url_container {
+		width: 30%;
+		height: auto;
+		min-width: 400px;
+		text-align: center;
+		margin: auto;
+	}
+
 	&__text {
 		color: $white_color--dark;
 	}
 
-	&__join-button {
+	&__join_button {
 		padding: 10px;
 		background-color: $pink_color--dark;
 	}
