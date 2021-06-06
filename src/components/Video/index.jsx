@@ -100,7 +100,6 @@ const Video = () => {
 		getUserMedia();
 		socket = null;
 		disconnectSocket();
-		// connectToSocketServer();
 		if (!state.video && localVideoref.current.srcObject) {
 			try {
 				let tracks = localVideoref.current.srcObject.getTracks();
@@ -141,7 +140,6 @@ const Video = () => {
 	useEffect(() => {
 		getUserMedia();
 		disconnectSocket();
-		// connectToSocketServer();
 		if (!state.audio && localVideoref.current.srcObject) {
 			try {
 				let tracks = localVideoref.current.srcObject.getTracks();
@@ -375,6 +373,7 @@ const Video = () => {
 
 	useEffect(() => {
 		connectToSocketServer();
+		// eslint-disable-next-line
 	}, []);
 
 	const connectToSocketServer = () => {
