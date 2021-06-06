@@ -1,6 +1,6 @@
 import * as React from "react";
-import Video from "./components/Video/Video";
-import Home from "./components/Home/Home";
+import Video from "./components/Video";
+import Home from "./components/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
