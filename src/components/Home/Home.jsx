@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { VStack, Spacer, Input, Button } from "@chakra-ui/react";
 import "./Home.scss";
-import NavBar from "./components/NavBar";
+import NavBar from "../NavBar";
 
 const Home = () => {
 	const history = useHistory();

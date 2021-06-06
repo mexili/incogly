@@ -20,7 +20,7 @@ import { Row } from "reactstrap";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "./Video.scss";
-import { isChrome, changeCssVideos } from "./utils";
+import { isChrome, changeCssVideos } from "../../utils";
 
 const server_url =
 	process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
