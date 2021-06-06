@@ -30,19 +30,17 @@ const Home = () => {
 					Connect &amp; Collaborate,
 				</h1>
 				<h1 className="home_page__heading">without friction.</h1>
-				<Spacer />
 				<p className="home_page__sub-heading">
 					Go anonymous, Go incogly.
 				</p>
-				<Spacer />
 				<img src="/images/code-image.png" alt="Code" />
+				<Spacer />
 
 				<div className="home_page__url_container">
 					<VStack>
 						<p className="home_page__text">
 							Start or join a meeting
 						</p>
-						<Spacer />
 						<Input
 							className="home_page__input_box"
 							placeholder="URL"
