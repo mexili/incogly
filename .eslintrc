@@ -1,13 +1,13 @@
 {
   //"extends": "airbnb",
   "parser": "babel-eslint",
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
   "rules": {
-  	"linebreak-style": 0,
-  	"no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
-  	"comma-dangle": ["error", "never"]
+    "linebreak-style": 0,
+    "no-unused-expressions": [
+      "error",
+      { "allowShortCircuit": true, "allowTernary": true }
+    ]
   },
   "globals": {
     "document": true,

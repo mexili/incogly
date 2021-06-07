@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
 import faker from "faker";
 
@@ -20,7 +21,7 @@ import { Row } from "reactstrap";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "./Video.scss";
-import { isChrome, changeCssVideos } from "./utils";
+import { isChrome, changeCssVideos } from "../../utils";
 
 const server_url =
 	process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
@@ -36,6 +37,8 @@ const Video = () => {
 	const localVideoref = useRef(null);
 	const [videoAvailable, setVideoAvailable] = useState(true);
 	const [audioAvailable, setAudioAvailable] = useState(true);
+	const history = useHistory();
+	const { pathname, origin } = window.location;
 
 	const [state, setState] = useState({
 		video: false,
@@ -98,7 +101,6 @@ const Video = () => {
 
 	useEffect(() => {
 		getUserMedia();
-		connectToSocketServer();
 		if (!state.video && localVideoref.current.srcObject) {
 			try {
 				let tracks = localVideoref.current.srcObject.getTracks();
@@ -138,7 +140,6 @@ const Video = () => {
 
 	useEffect(() => {
 		getUserMedia();
-		connectToSocketServer();
 		if (!state.audio && localVideoref.current.srcObject) {
 			try {
 				let tracks = localVideoref.current.srcObject.getTracks();
@@ -342,9 +343,8 @@ const Video = () => {
 												"signal",
 												fromId,
 												JSON.stringify({
-													sdp:
-														connections[fromId]
-															.localDescription,
+													sdp: connections[fromId]
+														.localDescription,
 												})
 											);
 										})
@@ -364,6 +364,11 @@ const Video = () => {
 		}
 	};
 
+	useEffect(() => {
+		connectToSocketServer();
+		// eslint-disable-next-line
+	}, []);
+
 	const connectToSocketServer = () => {
 		socket = io.connect(server_url, {
 			secure: true,
@@ -373,7 +378,7 @@ const Video = () => {
 		socket.on("signal", gotMessageFromServer);
 
 		socket.on("connect", () => {
-			socket.emit("join-call", window.location.href);
+			socket.emit("join-call", origin + pathname);
 			socketId = socket.id;
 
 			socket.on("chat-message", addMessage);
@@ -420,28 +425,35 @@ const Video = () => {
 							elms = clients.length;
 							let main = document.getElementById("main");
 							let cssMesure = changeCssVideos(main, elms);
+							if (cssMesure) {
+								let video = document.createElement("video");
 
-							let video = document.createElement("video");
+								let css = {
+									minWidth: cssMesure.minWidth,
+									minHeight: cssMesure.minHeight,
+									maxHeight: "100%",
+									margin: "10px",
+									borderStyle: "solid",
+									borderColor: "#bdbdbd",
+									objectFit: "fill",
+								};
+								for (let i in css) video.style[i] = css[i];
 
-							let css = {
-								minWidth: cssMesure.minWidth,
-								minHeight: cssMesure.minHeight,
-								maxHeight: "100%",
-								margin: "10px",
-								borderStyle: "solid",
-								borderColor: "#bdbdbd",
-								objectFit: "fill",
-							};
-							for (let i in css) video.style[i] = css[i];
+								video.style.setProperty(
+									"width",
+									cssMesure.width
+								);
+								video.style.setProperty(
+									"height",
+									cssMesure.height
+								);
+								video.setAttribute("data-socket", socketListId);
+								video.srcObject = event.stream;
+								video.autoplay = true;
+								video.playsinline = true;
 
-							video.style.setProperty("width", cssMesure.width);
-							video.style.setProperty("height", cssMesure.height);
-							video.setAttribute("data-socket", socketListId);
-							video.srcObject = event.stream;
-							video.autoplay = true;
-							video.playsinline = true;
-
-							main.appendChild(video);
+								main.appendChild(video);
+							}
 						}
 					};
 
@@ -476,9 +488,8 @@ const Video = () => {
 										"signal",
 										id2,
 										JSON.stringify({
-											sdp:
-												connections[id2]
-													.localDescription,
+											sdp: connections[id2]
+												.localDescription,
 										})
 									);
 								})
@@ -526,7 +537,7 @@ const Video = () => {
 			let tracks = localVideoref.current.srcObject.getTracks();
 			tracks.forEach((track) => track.stop());
 		} catch (e) {}
-		window.location.href = "/";
+		history.push("/");
 	};
 
 	const openChat = () => {
@@ -558,7 +569,7 @@ const Video = () => {
 	};
 
 	const copyUrl = () => {
-		let text = window.location.href;
+		let text = origin + pathname;
 		if (!navigator.clipboard) {
 			let textArea = document.createElement("textarea");
 			textArea.value = text;
@@ -741,10 +752,7 @@ const Video = () => {
 
 					<div className="video_call_screen__invitation_link__container">
 						<div style={{ paddingTop: "20px" }}>
-							<Input
-								value={window.location.href}
-								disable="true"
-							/>
+							<Input value={origin + pathname} disable="true" />
 							<Button
 								className="video_call_screen__invitation_link__invite_button"
 								variant="contained"

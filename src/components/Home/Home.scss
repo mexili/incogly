@@ -1,4 +1,4 @@
-@import "./global_styling/variables.scss";
+@import "../../global_styling/variables.scss";
 
 .home_page {
 	&__container {
@@ -27,12 +27,22 @@
 		color: $heading_color--dark;
 	}
 
+	&__url_container {
+		width: 30%;
+		height: auto;
+		min-width: 400px;
+		text-align: center;
+		margin: auto;
+	}
+
 	&__text {
 		color: $white_color--dark;
 	}
 
-	&__join-button {
-		padding: 10px;
+	&__join_button {
+		padding: 1rem;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+			Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 		background-color: $pink_color--dark;
 	}
 }

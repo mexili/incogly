@@ -1,15 +1,15 @@
-@import "./global_styling/variables.scss";
+@import "../../global_styling/variables.scss";
 
 .chrome__notifier {
 	background: $white_color--dark;
 	width: 30%;
 	height: auto;
 	padding: 20px;
-	minwidth: 400px;
-	textalign: center;
+	min-width: 400px;
+	text-align: center;
 	margin: auto;
-	margintop: 50px;
-	justifycontent: center;
+	margin-top: 50px;
+	justify-content: center;
 }
 
 .username-selector {
@@ -18,11 +18,11 @@
 		width: 30%;
 		height: auto;
 		padding: 20px;
-		minwidth: 400px;
-		textalign: center;
+		min-width: 400px;
+		text-align: center;
 		margin: auto;
-		margintop: 50px;
-		justifycontent: center;
+		margin-top: 50px;
+		justify-content: center;
 	}
 
 	&__button {
@@ -33,14 +33,14 @@
 
 	&__label {
 		margin: 0;
-		fontweight: bold;
-		paddingright: 50px;
+		font-weight: bold;
+		padding-right: 50px;
 	}
 
 	&__preview_video_wrapper {
 		display: flex;
 		justify-content: center;
-		paddingtop: 40px;
+		padding-top: 40px;
 	}
 
 	&__preview_video {
@@ -65,10 +65,9 @@
 		&__invite_button {
 			background-color: $pink_color--dark;
 			color: $whitesmoke--dark;
-			marginleft: 20px;
-			margintop: 10px;
+			margin: 10px inherit inherit 20px;
 			width: 120px;
-			fontsize: 10px;
+			font-size: 10px;
 		}
 	}
 
@@ -95,7 +94,7 @@
 		bottom: 0px;
 		width: 100%;
 		height: auto;
-		backgroundcolor: whitesmoke;
+		background-color: whitesmoke;
 		color: whitesmoke;
 		text-align: center;
 		&--webcam-icon {
@@ -121,7 +120,7 @@
 			overflow: auto;
 			overflow-y: auto;
 			height: 400px;
-			textalign: left;
+			text-align: left;
 		}
 
 		&__footer {
