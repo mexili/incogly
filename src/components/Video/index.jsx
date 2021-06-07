@@ -634,6 +634,20 @@ const Video = () => {
 
 						<Center>
 							<div className="username-selector__preview_video_wrapper">
+								<IconButton onClick={this.handleVideo}>
+									{state.video === true ? (
+										<VideocamIcon />
+									) : (
+										<VideocamOffIcon />
+									)}
+								</IconButton>
+								<IconButton onClick={this.handleAudio}>
+									{state.audio === true ? (
+										<MicIcon />
+									) : (
+										<MicOffIcon />
+									)}
+								</IconButton>
 								<video
 									className="username-selector__preview_video"
 									id="my-video1"
