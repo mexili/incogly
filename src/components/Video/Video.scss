@@ -11,7 +11,9 @@
 	margin-top: 50px;
 	justify-content: center;
 }
-
+.pair{
+	display: flex;
+}
 .username-selector {
 	&__container {
 		background: $white_color--dark;

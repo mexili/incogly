@@ -617,19 +617,21 @@ const Video = () => {
 							<p className="username-selector__label">
 								Set your username
 							</p>
-							<Input
-								placeholder="Username"
-								value={state.username}
-								onChange={(e) => handleUsername(e)}
-							/>
-							<Button
-								variant="contained"
-								color="primary"
-								onClick={connect}
-								className="username-selector__button"
-							>
-								Connect
-							</Button>
+							<div className="pair">
+								<Input
+									placeholder="Username"
+									value={state.username}
+									onChange={(e) => handleUsername(e)}
+								/>
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={connect}
+									className="username-selector__button"
+								>
+									Connect
+								</Button>
+							</div>
 						</div>
 
 						<Center>
