@@ -617,7 +617,7 @@ const Video = () => {
 							<p className="username-selector__label">
 								Set your username
 							</p>
-							<div className="username-selector__size">
+							<div className="username-selector__input_container">
 								<Input
 									placeholder="Username"
 									value={state.username}
