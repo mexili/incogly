@@ -617,23 +617,39 @@ const Video = () => {
 							<p className="username-selector__label">
 								Set your username
 							</p>
-							<Input
-								placeholder="Username"
-								value={state.username}
-								onChange={(e) => handleUsername(e)}
-							/>
-							<Button
-								variant="contained"
-								color="primary"
-								onClick={connect}
-								className="username-selector__button"
-							>
-								Connect
-							</Button>
+							<div className="username-selector__input_container">
+								<Input
+									placeholder="Username"
+									value={state.username}
+									onChange={(e) => handleUsername(e)}
+								/>
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={connect}
+									className="username-selector__button"
+								>
+									Connect
+								</Button>
+							</div>
 						</div>
 
 						<Center>
 							<div className="username-selector__preview_video_wrapper">
+								<IconButton onClick={this.handleVideo}>
+									{state.video === true ? (
+										<VideocamIcon />
+									) : (
+										<VideocamOffIcon />
+									)}
+								</IconButton>
+								<IconButton onClick={this.handleAudio}>
+									{state.audio === true ? (
+										<MicIcon />
+									) : (
+										<MicOffIcon />
+									)}
+								</IconButton>
 								<video
 									className="username-selector__preview_video"
 									id="my-video1"
