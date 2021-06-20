@@ -6,20 +6,13 @@ import NavBar from "../NavBar";
 
 const Home = () => {
 	const history = useHistory();
-	const [url, setUrl] = useState("");
+	const [roomId, setRoomId] = useState("");
 
-	const handleChange = (e) => {
-		setUrl(e.target.value);
-	};
-
-	const join = () => {
-		let tempUrl = "";
-		if (url !== "") {
-			tempUrl = url.trim();
-		} else {
-			tempUrl = Math.random().toString(36).substring(2, 7);
-		}
-		history.push(`/${tempUrl}`);
+	const joinRoom = () => {
+		let tempRoomId;
+		if (roomId) tempRoomId = roomId.trim();
+		else tempRoomId = Math.random().toString(36).substring(2, 7);
+		history.push(`/${tempRoomId}`);
 	};
 
 	return (
@@ -44,13 +37,14 @@ const Home = () => {
 						<Input
 							className="home_page__input_box"
 							placeholder="URL"
-							onChange={(e) => handleChange(e)}
+							value={roomId}
+							onChange={(e) => setRoomId(e.target.value)}
 						/>
 						<Spacer />
 						<Button
 							className="home_page__join_button"
 							variant="contained"
-							onClick={join}
+							onClick={joinRoom}
 						>
 							Start Collaborating
 						</Button>

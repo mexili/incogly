@@ -375,124 +375,115 @@ const Video = () => {
 		socket.on("connect", () => {
 			socket.emit("join-call", origin + pathname);
 			socketId = socket.id;
+		});
 
-			socket.on("chat-message", addMessage);
+		socket.on("chat-message", addMessage);
 
-			socket.on("user-left", (id) => {
-				let video = document.querySelector(`[data-socket="${id}"]`);
-				if (video !== null) {
-					elms--;
-					video.parentNode.removeChild(video);
+		socket.on("user-left", (id) => {
+			let video = document.querySelector(`[data-socket="${id}"]`);
+			if (video !== null) {
+				elms--;
+				video.parentNode.removeChild(video);
 
-					let main = document.getElementById("main");
-					changeCssVideos(main, elms);
-				}
-			});
+				let main = document.getElementById("main");
+				changeCssVideos(main, elms);
+			}
+		});
 
-			socket.on("user-joined", (id, clients) => {
-				clients.forEach((socketListId) => {
-					connections[socketListId] = new RTCPeerConnection(
-						peerConnectionConfig
-					);
-					// Wait for their ice candidate
-					connections[socketListId].onicecandidate = function (
-						event
-					) {
-						if (event.candidate != null) {
-							socket.emit(
-								"signal",
-								socketListId,
-								JSON.stringify({ ice: event.candidate })
-							);
-						}
-					};
-
-					// Wait for their video stream
-					connections[socketListId].onaddstream = (event) => {
-						// TODO mute button, full screen button
-						let searchVidep = document.querySelector(
-							`[data-socket="${socketListId}"]`
+		socket.on("user-joined", (id, clients) => {
+			clients.forEach((socketListId) => {
+				connections[socketListId] = new RTCPeerConnection(
+					peerConnectionConfig
+				);
+				// Wait for their ice candidate
+				connections[socketListId].onicecandidate = function (event) {
+					if (event.candidate != null) {
+						socket.emit(
+							"signal",
+							socketListId,
+							JSON.stringify({ ice: event.candidate })
 						);
-						if (searchVidep !== null) {
-							// if i don't do this check it make an empyt square
-							searchVidep.srcObject = event.stream;
-						} else {
-							elms = clients.length;
-							let main = document.getElementById("main");
-							let cssMesure = changeCssVideos(main, elms);
-							if (cssMesure) {
-								let video = document.createElement("video");
+					}
+				};
 
-								let css = {
-									minWidth: cssMesure.minWidth,
-									minHeight: cssMesure.minHeight,
-									maxHeight: "100%",
-									margin: "10px",
-									borderStyle: "solid",
-									borderColor: "#bdbdbd",
-									objectFit: "fill",
-								};
-								for (let i in css) video.style[i] = css[i];
-
-								video.style.setProperty(
-									"width",
-									cssMesure.width
-								);
-								video.style.setProperty(
-									"height",
-									cssMesure.height
-								);
-								video.setAttribute("data-socket", socketListId);
-								video.srcObject = event.stream;
-								video.autoplay = true;
-								video.playsinline = true;
-
-								main.appendChild(video);
-							}
-						}
-					};
-
-					// Add the local video stream
-					if (
-						window.localStream !== undefined &&
-						window.localStream !== null
-					) {
-						connections[socketListId].addStream(window.localStream);
+				// Wait for their video stream
+				connections[socketListId].onaddstream = (event) => {
+					// TODO mute button, full screen button
+					let searchVidep = document.querySelector(
+						`[data-socket="${socketListId}"]`
+					);
+					if (searchVidep !== null) {
+						// if i don't do this check it make an empyt square
+						searchVidep.srcObject = event.stream;
 					} else {
-						let blackSilence = (...args) =>
-							new MediaStream([black(...args), silence()]);
-						window.localStream = blackSilence();
-						connections[socketListId].addStream(window.localStream);
+						elms = clients.length;
+						let main = document.getElementById("main");
+						let cssMesure = changeCssVideos(main, elms);
+						if (cssMesure) {
+							let video = document.createElement("video");
+
+							let css = {
+								minWidth: cssMesure.minWidth,
+								minHeight: cssMesure.minHeight,
+								maxHeight: "100%",
+								margin: "10px",
+								borderStyle: "solid",
+								borderColor: "#bdbdbd",
+								objectFit: "fill",
+							};
+							for (let i in css) video.style[i] = css[i];
+
+							video.style.setProperty("width", cssMesure.width);
+							video.style.setProperty("height", cssMesure.height);
+							video.setAttribute("data-socket", socketListId);
+							video.srcObject = event.stream;
+							video.autoplay = true;
+							video.playsinline = true;
+
+							main.appendChild(video);
+						}
 					}
-				});
+				};
 
-				if (id === socketId) {
-					for (let id2 in connections) {
-						if (id2 === socketId) continue;
-
-						try {
-							connections[id2].addStream(window.localStream);
-						} catch (e) {}
-
-						// eslint-disable-next-line
-						connections[id2].createOffer().then((description) => {
-							connections[id2]
-								.setLocalDescription(description)
-								.then(() => {
-									socket.emit(
-										"signal",
-										id2,
-										JSON.stringify({
-											sdp: connections[id2]
-												.localDescription,
-										})
-									);
-								})
-								.catch((e) => console.log(e));
-						});
-					}
+				// Add the local video stream
+				if (
+					window.localStream !== undefined &&
+					window.localStream !== null
+				) {
+					connections[socketListId].addStream(window.localStream);
+				} else {
+					let blackSilence = (...args) =>
+						new MediaStream([black(...args), silence()]);
+					window.localStream = blackSilence();
+					connections[socketListId].addStream(window.localStream);
 				}
 			});
+
+			if (id === socketId) {
+				for (let id2 in connections) {
+					if (id2 === socketId) continue;
+
+					try {
+						connections[id2].addStream(window.localStream);
+					} catch (e) {}
+
+					// eslint-disable-next-line
+					connections[id2].createOffer().then((description) => {
+						connections[id2]
+							.setLocalDescription(description)
+							.then(() => {
+								socket.emit(
+									"signal",
+									id2,
+									JSON.stringify({
+										sdp: connections[id2].localDescription,
+									})
+								);
+							})
+							.catch((e) => console.log(e));
+					});
+				}
+			}
 		});
 	};
 
