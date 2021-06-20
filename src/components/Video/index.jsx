@@ -364,11 +364,6 @@ const Video = () => {
 		}
 	};
 
-	useEffect(() => {
-		connectToSocketServer();
-		// eslint-disable-next-line
-	}, []);
-
 	const connectToSocketServer = () => {
 		socket = io.connect(server_url, {
 			secure: true,
@@ -595,9 +590,16 @@ const Video = () => {
 		);
 	};
 
+	// useEffect(() => {
+	// 	connectToSocketServer();
+	// 	// eslint-disable-next-line
+	// }, []);
 	useEffect(() => {
 		if (!state.askForUsername) {
-			getMedia();
+			setTimeout(() => {
+				getMedia();
+				connectToSocketServer();
+			}, 1000);
 		}
 		// eslint-disable-next-line
 	}, [state.askForUsername]);
@@ -636,14 +638,14 @@ const Video = () => {
 
 						<Center>
 							<div className="username-selector__preview_video_wrapper">
-								<IconButton onClick={this.handleVideo}>
+								<IconButton onClick={handleVideo}>
 									{state.video === true ? (
 										<VideocamIcon />
 									) : (
 										<VideocamOffIcon />
 									)}
 								</IconButton>
-								<IconButton onClick={this.handleAudio}>
+								<IconButton onClick={handleAudio}>
 									{state.audio === true ? (
 										<MicIcon />
 									) : (
