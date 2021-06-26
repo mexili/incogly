@@ -2,7 +2,7 @@
   "name": "video",
   "version": "0.1.0",
   "private": true,
-  "homepage": "inc0g.netlify.app",
+  "homepage": ".",
   "dependencies": {
     "@chakra-ui/react": "^1.6.2",
     "@emotion/react": "^11",
