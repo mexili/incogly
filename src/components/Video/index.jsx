@@ -20,7 +20,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./Video.scss";
 
 const server_url =
-	process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
+	process.env.NODE_ENV === "production"
+		? "https://incog-317412.el.r.appspot.com/"
+		: "http://localhost:5000";
 
 const peerConnectionConfig = {
 	iceServers: [{ urls: "stun:stun.l.google.com:19302" }],

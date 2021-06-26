@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - major_refactor
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build
+        run: |
+          yarn install
+          yarn build
+          yarn deploy
+        env:
+          NODE_ENV: ${{ secrets.NODE_ENV }}
