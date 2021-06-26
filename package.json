@@ -2,7 +2,7 @@
   "name": "video",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mexili.org/incogly",
+  "homepage": "inc0g.netlify.app",
   "dependencies": {
     "@chakra-ui/react": "^1.6.2",
     "@emotion/react": "^11",
@@ -19,7 +19,7 @@
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "framer-motion": "^4",
-    "nodemon": "^2.0.2",
+    "nodemon": "^2.0.7",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
     "react-css-grid": "^2.0.0-0",
@@ -42,7 +42,8 @@
     "build": "react-scripts build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "NODE_ENV=production nodemon app.js"
   },
   "eslintConfig": {
     "extends": "react-app"
