@@ -8,7 +8,7 @@ const App = (props) => {
 	return (
 		<>
 			<ChakraProvider>
-				<Router>
+				<Router basename={`${process.env.PUBLIC_URL}/`}>
 					<Switch>
 						<Route path="/" exact component={Home} />
 						<Route path="/:url" component={Video} />

@@ -5,3 +5,7 @@ key.pem
 .DS_Store
 react-face-recognition/package-lock.json
 tags
+
+build
+build/
+build/*
