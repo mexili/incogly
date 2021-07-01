@@ -29,9 +29,7 @@ const Home = () => {
 				<img
 					src="https://cdn.dribbble.com/users/37380/screenshots/10883216/zoom-party4_12fps.gif"
 					alt="landing-page"
-					height="600"
-					width="800"
-					style={{ border: "1px", borderRadius: 75 + "px" }}
+					className="home_page__image"
 				/>
 				<Spacer />
 

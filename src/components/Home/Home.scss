@@ -17,6 +17,11 @@
 	&__input_box {
 		color: #fff;
 	}
+	&__image {
+		height: 600px;
+		width: 800px;
+		border-radius: 75px;
+	}
 	&__heading {
 		font-size: 48px;
 		color: $white_color--dark;
