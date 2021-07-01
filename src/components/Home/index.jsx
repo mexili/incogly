@@ -26,7 +26,13 @@ const Home = () => {
 				<p className="home_page__sub-heading">
 					Go anonymous, Go incogly.
 				</p>
-				<img src="/images/code-image.png" alt="Code" />
+				<img
+					src="https://cdn.dribbble.com/users/37380/screenshots/10883216/zoom-party4_12fps.gif"
+					alt="landing-page"
+					height="600"
+					width="800"
+					style={{ border: "1px", borderRadius: 75 + "px" }}
+				/>
 				<Spacer />
 
 				<div className="home_page__url_container">
