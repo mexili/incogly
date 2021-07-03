@@ -44,3 +44,27 @@ export function changeCssVideos(main, elms) {
 		return { minWidth, minHeight, width, height };
 	}
 }
+
+export function addVideoStream(cssMesure, main, event, socketListId) {
+	if (cssMesure) {
+		let video = document.createElement("video");
+
+		let css = {
+			minWidth: cssMesure.minWidth,
+			minHeight: cssMesure.minHeight,
+			maxHeight: "100%",
+			margin: "10px",
+		};
+		for (let i in css) video.style[i] = css[i];
+
+		video.className += " video_call_screen__video_stream";
+		video.style.setProperty("width", cssMesure.width);
+		video.style.setProperty("height", cssMesure.height);
+		video.setAttribute("data-socket", socketListId);
+		video.srcObject = event.stream;
+		video.autoplay = true;
+		video.playsinline = true;
+
+		main.appendChild(video);
+	}
+}

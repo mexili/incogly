@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
 import faker from "faker";
-import { isChrome, changeCssVideos } from "../../utils";
+import { isChrome, changeCssVideos, addVideoStream } from "../../utils";
 import { IconButton, Badge, Input } from "@material-ui/core";
 import { Center, VStack, Button } from "@chakra-ui/react";
 import VideocamIcon from "@material-ui/icons/Videocam";
@@ -272,45 +272,22 @@ const Video = () => {
 					// Wait for their video stream
 					connections[socketListId].onaddstream = (event) => {
 						// TODO mute button, full screen button
-						let searchVidep = document.querySelector(
+						let searchVideo = document.querySelector(
 							`[data-socket="${socketListId}"]`
 						);
-						if (searchVidep !== null) {
+						if (searchVideo !== null) {
 							// if i don't do this check it make an empyt square
-							searchVidep.srcObject = event.stream;
+							searchVideo.srcObject = event.stream;
 						} else {
-							elms = clients.length;
+							let elms = clients.length;
 							let main = document.getElementById("main");
-							let cssMesure = changeCssVideos(main, elms);
-							if (cssMesure) {
-								let video = document.createElement("video");
-
-								let css = {
-									minWidth: cssMesure.minWidth,
-									minHeight: cssMesure.minHeight,
-									maxHeight: "100%",
-									margin: "10px",
-									borderStyle: "solid",
-									borderColor: "#bdbdbd",
-									objectFit: "fill",
-								};
-								for (let i in css) video.style[i] = css[i];
-
-								video.style.setProperty(
-									"width",
-									cssMesure.width
-								);
-								video.style.setProperty(
-									"height",
-									cssMesure.height
-								);
-								video.setAttribute("data-socket", socketListId);
-								video.srcObject = event.stream;
-								video.autoplay = true;
-								video.playsinline = true;
-
-								main.appendChild(video);
-							}
+							let cssMeasure = changeCssVideos(main, elms);
+							addVideoStream(
+								cssMeasure,
+								main,
+								event,
+								socketListId
+							);
 						}
 					};
 
@@ -360,8 +337,9 @@ const Video = () => {
 	}, [isAskForUsername]);
 
 	if (!isChrome()) {
-		return null;
+		return <>Only works in chrome</>;
 	}
+
 	return (
 		<>
 			{isAskForUsername && (
@@ -531,18 +509,18 @@ const Video = () => {
 							</Button>
 						</div>
 
-						<Row
+						<div
 							id="main"
 							className="video_call_screen__video_stream_container"
 						>
 							<video
-								id="my-video2"
 								className="video_call_screen__video_stream"
+								id="my-video2"
 								ref={userVideoRef}
 								autoPlay
 								muted
 							/>
-						</Row>
+						</div>
 					</div>
 				</div>
 			)}

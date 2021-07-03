@@ -80,14 +80,22 @@
 		padding: 0;
 		display: flex;
 		flex-direction: row;
+		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
+		gap: 10px;
 	}
 
 	&__video_stream {
-		margin: 10px;
-		width: 100%;
-		height: 100%;
+		flex-grow: 1;
+		flex-shrink: 1;
+		min-width: 20vw;
+
+		> video {
+			margin: 10px;
+			width: 100%;
+			height: 100%;
+		}
 	}
 
 	&__call_buttons {
