@@ -14,7 +14,7 @@ import StopScreenShareIcon from "@material-ui/icons/StopScreenShare";
 import CallEndIcon from "@material-ui/icons/CallEnd";
 import ChatIcon from "@material-ui/icons/Chat";
 import { message } from "antd";
-import { Modal, Row } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import "antd/dist/antd.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./Video.scss";
