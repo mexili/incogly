@@ -68,7 +68,6 @@ const Video = () => {
 		if (socket) socket.emit("chat-message", userMessage, username);
 		setUserMessage("");
 	};
-
 	const handleEndCall = () => {
 		if (socket) socket = null;
 		try {
@@ -362,6 +361,7 @@ const Video = () => {
 									color="primary"
 									onClick={() => setIsAskForUsername(false)}
 									className="username-selector__button"
+									type="submit"
 								>
 									Connect
 								</Button>
