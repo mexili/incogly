@@ -9,13 +9,21 @@ const Home = () => {
 	const history = useHistory();
 	const [roomId, setRoomId] = useState("");
 
+	const handleChange = (e) => {
+		setRoomId(e.target.value);
+	};
+
+	const handleKeyPress = (e) => {
+		if (e.key === 'Enter') {
+			this.btn.click();
+		}
+	};
 	const joinRoom = () => {
 		let tempRoomId;
 		if (roomId) tempRoomId = roomId.trim();
 		else tempRoomId = Math.random().toString(36).substring(2, 7);
 		history.push(`/${tempRoomId}`);
 	};
-
 	return (
 		<div className="home_page__container">
 			<NavBar />
@@ -58,12 +66,15 @@ const Home = () => {
 								className="home_page__input_box"
 								placeholder="Enter unique ID or link"
 								value={roomId}
-								onChange={(e) => setRoomId(e.target.value)}
+								onChange={handleChange}
+								onKeyDown={handleKeyPress}
 							/>
 							<Button
 								className="home_page__join_button"
 								variant="contained"
 								onClick={joinRoom}
+								ref={handleKeyPress}
+								type="submit"
 							>
 								Start Collaborating
 							</Button>
