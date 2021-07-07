@@ -35,6 +35,7 @@ let elms = 0;
 const Video = () => {
 	const history = useHistory();
 	const userVideoRef = useRef(null);
+	const btn = useRef(null);
 	const { pathname, origin } = window.location;
 
 	// eslint-disable-next-line
@@ -67,6 +68,11 @@ const Video = () => {
 	const sendChatMessage = () => {
 		if (socket) socket.emit("chat-message", userMessage, username);
 		setUserMessage("");
+	};
+	const handleKeyPress = (e) => {
+		if (e.keyCode === 13) {
+			btn.current.focus();
+		}
 	};
 	const handleEndCall = () => {
 		if (socket) socket = null;
@@ -355,6 +361,7 @@ const Video = () => {
 									onChange={(e) =>
 										setUsername(e.target.value)
 									}
+									onKeyDown={handleKeyPress}
 								/>
 								<Button
 									variant="contained"
@@ -362,6 +369,7 @@ const Video = () => {
 									onClick={() => setIsAskForUsername(false)}
 									className="username-selector__button"
 									type="submit"
+									ref={btn}
 								>
 									Connect
 								</Button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { Input, Button } from "@chakra-ui/react";
 import { Container } from "react-bootstrap";
@@ -6,6 +6,7 @@ import "./Home.scss";
 import NavBar from "../NavBar";
 
 const Home = () => {
+	const btn = useRef(null);
 	const history = useHistory();
 	const [roomId, setRoomId] = useState("");
 
@@ -14,8 +15,8 @@ const Home = () => {
 	};
 
 	const handleKeyPress = (e) => {
-		if (e.key === 'Enter') {
-			this.btn.click();
+		if (e.keyCode === 13) {
+			btn.current.focus();
 		}
 	};
 	const joinRoom = () => {
@@ -73,7 +74,7 @@ const Home = () => {
 								className="home_page__join_button"
 								variant="contained"
 								onClick={joinRoom}
-								ref={handleKeyPress}
+								ref={btn}
 								type="submit"
 							>
 								Start Collaborating
