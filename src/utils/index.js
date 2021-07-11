@@ -45,6 +45,11 @@ export function changeCssVideos(main, elms) {
 	}
 }
 
+export function addVideoStreamBase(elmt) {
+	let main = document.getElementById("main");
+	main.appendChild(elmt);
+}
+
 export function addVideoStream(cssMesure, main, event, socketListId) {
 	if (cssMesure) {
 		let video = document.createElement("video");
