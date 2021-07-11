@@ -186,10 +186,7 @@ const Video = () => {
 	};
 
 	const addMessage = (data, sender, socketIdSender) => {
-		setChatMessages((prevState) => [
-			...prevState,
-			{ sender: sender, data: data },
-		]);
+		setChatMessages([...chatMessages, { sender: sender, data: data }]);
 		if (socketIdSender !== socketId) {
 			if (!isChatModalOpen) setTotalNewMessages(totalNewMessages + 1);
 			else setTotalNewMessages(0);
