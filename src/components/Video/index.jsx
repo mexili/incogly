@@ -24,7 +24,7 @@ import "./Video.scss";
 // 	process.env.NODE_ENV === "production"
 // 		? "https://incog-317412.el.r.appspot.com/"
 // 		: "https://incog-317412.el.r.appspot.com/";
-const server_url = "https://incog-317412.el.r.appspot.com/";
+const server_url = "incog-317412.el.r.appspot.com/";
 
 let socket = null;
 let socketId = null;
