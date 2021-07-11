@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Input, Button } from "@chakra-ui/react";
-import { Container } from "react-bootstrap";
-import "./Home.scss";
 import NavBar from "../NavBar";
+import "./Home.scss";
 
 const Home = () => {
 	const history = useHistory();
@@ -19,7 +18,7 @@ const Home = () => {
 	return (
 		<div className="home_page__container">
 			<NavBar />
-			<Container>
+			<div className="container">
 				<div className="home_page__heading_grid">
 					<div>
 						<span className="home_page__heading">Connect</span>
@@ -70,7 +69,7 @@ const Home = () => {
 						</div>
 					</div>
 				</div>
-			</Container>
+			</div>
 		</div>
 	);
 };
